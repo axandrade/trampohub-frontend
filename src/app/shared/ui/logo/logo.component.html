@@ -1,0 +1,20 @@
+<div class="logo" [class.logo--light]="theme === 'light'" [class.logo--dark]="theme === 'dark'">
+  <svg
+    class="logo__mark"
+    viewBox="0 0 44 36"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    role="img"
+    aria-label="TrampoHub — pássaros em voo"
+  >
+    <path class="logo__bird logo__bird--1" d="M4,30 Q7,25 10,30 Q13,25 16,30" stroke-width="2.2" stroke-linecap="round" />
+    <path class="logo__bird logo__bird--2" d="M14,21 Q18,14 22,21 Q26,14 30,21" stroke-width="2.4" stroke-linecap="round" />
+    <path class="logo__bird logo__bird--3" d="M24,12 Q29,3 34,12 Q39,3 44,12" stroke-width="2.6" stroke-linecap="round" />
+  </svg>
+
+  @if (variant === 'full') {
+    <span class="logo__wordmark">
+      <span class="logo__wordmark-strong">Trampo</span><span class="logo__wordmark-light">Hub</span>
+    </span>
+  }
+</div>

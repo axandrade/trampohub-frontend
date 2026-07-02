@@ -1,0 +1,74 @@
+:host {
+  display: inline-flex;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.logo__mark {
+  width: 36px;
+  height: 30px;
+  flex-shrink: 0;
+}
+
+.logo__bird {
+  fill: none;
+}
+
+.logo__wordmark {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.logo__wordmark-light {
+  font-weight: 400;
+}
+
+/* Tema escuro (marca navy sobre fundo claro) */
+.logo--dark .logo__bird--1 {
+  stroke: var(--color-navy-400);
+  opacity: 0.55;
+}
+
+.logo--dark .logo__bird--2 {
+  stroke: var(--color-navy-500);
+  opacity: 0.8;
+}
+
+.logo--dark .logo__bird--3 {
+  stroke: var(--color-navy-700);
+}
+
+.logo--dark .logo__wordmark-strong {
+  color: var(--color-navy-700);
+}
+
+.logo--dark .logo__wordmark-light {
+  color: var(--color-gray-500);
+}
+
+/* Tema claro (marca branca sobre fundo navy) */
+.logo--light .logo__bird--1 {
+  stroke: rgba(255, 255, 255, 0.5);
+}
+
+.logo--light .logo__bird--2 {
+  stroke: rgba(255, 255, 255, 0.75);
+}
+
+.logo--light .logo__bird--3 {
+  stroke: #ffffff;
+}
+
+.logo--light .logo__wordmark-strong {
+  color: #ffffff;
+}
+
+.logo--light .logo__wordmark-light {
+  color: var(--color-navy-100);
+}

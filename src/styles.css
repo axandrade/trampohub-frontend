@@ -1,1 +1,121 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+  /* Cor de marca — azul-marinho */
+  --color-navy-900: #0a1929;
+  --color-navy-800: #0f2942;
+  --color-navy-700: #163a5f;
+  --color-navy-600: #204d7a;
+  --color-navy-500: #2e639a;
+  --color-navy-400: #5b85b3;
+  --color-navy-100: #e8eef5;
+
+  /* Neutros — cinza */
+  --color-gray-900: #1c1f23;
+  --color-gray-700: #464c53;
+  --color-gray-500: #6e7681;
+  --color-gray-300: #c7ccd1;
+  --color-gray-200: #e2e5e9;
+  --color-gray-100: #f4f5f7;
+  --color-gray-50: #fafbfc;
+  --color-white: #ffffff;
+
+  /* Semântico */
+  --color-danger: #c0392b;
+  --color-danger-bg: #fbeae8;
+  --color-success: #1e8e5a;
+
+  /* Tipografia */
+  --font-family-base: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+
+  /* Espaçamento */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-8: 48px;
+
+  /* Raio e sombra */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --shadow-md: 0 4px 16px rgba(10, 25, 41, 0.08);
+  --shadow-lg: 0 12px 32px rgba(10, 25, 41, 0.14);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family-base);
+  color: var(--color-gray-900);
+  background-color: var(--color-gray-50);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+/* Campos de formulário — reutilizáveis em qualquer feature (login, cadastro, etc.) */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.field__label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-gray-700);
+}
+
+.field__input {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-white);
+  color: var(--color-gray-900);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.field__input:focus {
+  outline: none;
+  border-color: var(--color-navy-500);
+  box-shadow: 0 0 0 3px var(--color-navy-100);
+}
+
+.field__input.field__input--invalid {
+  border-color: var(--color-danger);
+}
+
+.field__error {
+  font-size: 0.8125rem;
+  color: var(--color-danger);
+}
+
+.alert {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+}
+
+.alert--danger {
+  background-color: var(--color-danger-bg);
+  color: var(--color-danger);
+}
