@@ -17,6 +17,17 @@ export interface LoginResponse {
   token: string;
 }
 
+export interface CadastroPayload {
+  username: string;
+  password: string;
+  tipo: 'empregador' | 'candidato';
+  nome_empresa?: string;
+}
+
+export interface CadastroResponse {
+  detail: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -35,6 +46,10 @@ export class AuthService {
           this.setUsername(credentials.username);
         }),
       );
+  }
+
+  register(payload: CadastroPayload): Observable<CadastroResponse> {
+    return this.http.post<CadastroResponse>(`${environment.apiUrl}/cadastro/`, payload);
   }
 
   logout(): void {

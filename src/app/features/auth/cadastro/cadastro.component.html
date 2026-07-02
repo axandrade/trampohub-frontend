@@ -1,0 +1,99 @@
+<div class="cadastro">
+  <section class="cadastro__brand">
+    <app-logo variant="full" theme="light" class="cadastro__logo" />
+    <p class="cadastro__tagline">Encontre a vaga certa ou o profissional certo. Comece por aqui.</p>
+  </section>
+
+  <section class="cadastro__panel">
+    <div class="cadastro__card">
+      <app-logo variant="icon" theme="dark" class="cadastro__logo cadastro__logo--mobile" />
+
+      @if (success) {
+        <h1 class="cadastro__title">Cadastro concluído!</h1>
+        <p class="cadastro__subtitle">Sua conta foi criada com sucesso. Agora é só entrar.</p>
+        <app-button variant="primary" class="cadastro__submit" routerLink="/login">Ir para o login</app-button>
+      } @else {
+        <h1 class="cadastro__title">Criar conta</h1>
+        <p class="cadastro__subtitle">Escolha o tipo de conta e preencha seus dados.</p>
+
+        <form class="cadastro__form" [formGroup]="form" (ngSubmit)="submit()">
+          @if (errorMessage) {
+            <div class="alert alert--danger" role="alert">{{ errorMessage }}</div>
+          }
+
+          <div class="field">
+            <span class="field__label">Eu sou</span>
+            <div class="tipo-toggle">
+              <label
+                class="tipo-toggle__option"
+                [class.tipo-toggle__option--active]="form.controls.tipo.value === 'candidato'"
+              >
+                <input type="radio" formControlName="tipo" value="candidato" />
+                Candidato
+              </label>
+              <label
+                class="tipo-toggle__option"
+                [class.tipo-toggle__option--active]="form.controls.tipo.value === 'empregador'"
+              >
+                <input type="radio" formControlName="tipo" value="empregador" />
+                Empresa
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="username">Usuário</label>
+            <input
+              id="username"
+              type="text"
+              class="field__input"
+              [class.field__input--invalid]="form.controls.username.invalid && form.controls.username.touched"
+              formControlName="username"
+              autocomplete="username"
+            />
+            @if (form.controls.username.invalid && form.controls.username.touched) {
+              <span class="field__error">Informe um usuário.</span>
+            }
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="password">Senha</label>
+            <input
+              id="password"
+              type="password"
+              class="field__input"
+              [class.field__input--invalid]="form.controls.password.invalid && form.controls.password.touched"
+              formControlName="password"
+              autocomplete="new-password"
+            />
+            @if (form.controls.password.invalid && form.controls.password.touched) {
+              <span class="field__error">A senha deve ter ao menos 6 caracteres.</span>
+            }
+          </div>
+
+          @if (isEmpregador) {
+            <div class="field">
+              <label class="field__label" for="nome_empresa">Nome da empresa</label>
+              <input
+                id="nome_empresa"
+                type="text"
+                class="field__input"
+                [class.field__input--invalid]="
+                  form.controls.nome_empresa.invalid && form.controls.nome_empresa.touched
+                "
+                formControlName="nome_empresa"
+              />
+              @if (form.controls.nome_empresa.invalid && form.controls.nome_empresa.touched) {
+                <span class="field__error">Informe o nome da empresa.</span>
+              }
+            </div>
+          }
+
+          <app-button type="submit" variant="primary" [loading]="loading">Criar conta</app-button>
+        </form>
+
+        <a routerLink="/login" class="cadastro__back-link">Já tenho uma conta</a>
+      }
+    </div>
+  </section>
+</div>
