@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -10,6 +10,7 @@ import { ButtonComponent } from '../../../shared/ui/button/button.component';
     selector: 'app-cadastro',
     imports: [ReactiveFormsModule, RouterLink, LogoComponent, ButtonComponent],
     templateUrl: './cadastro.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './cadastro.component.css'
 })
 export class CadastroComponent {

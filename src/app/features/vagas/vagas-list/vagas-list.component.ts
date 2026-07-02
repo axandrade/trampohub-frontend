@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { VagaService } from '../services/vaga.service';
 import { Vaga } from '../models/vaga.model';
 
@@ -6,6 +6,7 @@ import { Vaga } from '../models/vaga.model';
     selector: 'app-vagas-list',
     imports: [],
     templateUrl: './vagas-list.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './vagas-list.component.css'
 })
 export class VagasListComponent implements OnInit {

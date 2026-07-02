@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -10,6 +10,7 @@ import { ButtonComponent } from '../../../shared/ui/button/button.component';
     selector: 'app-login',
     imports: [ReactiveFormsModule, RouterLink, LogoComponent, ButtonComponent],
     templateUrl: './login.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './login.component.css'
 })
 export class LoginComponent {
