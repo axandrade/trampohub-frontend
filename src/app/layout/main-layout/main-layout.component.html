@@ -6,11 +6,21 @@
       <a class="layout__nav-link" routerLink="/home" routerLinkActive="layout__nav-link--active">Início</a>
       <a class="layout__nav-link" routerLink="/vagas" routerLinkActive="layout__nav-link--active">Vagas</a>
     </nav>
-
-    <app-button variant="secondary" class="layout__logout" (clicked)="logout()">Sair</app-button>
   </aside>
 
-  <main class="layout__content">
-    <router-outlet />
-  </main>
+  <div class="layout__main">
+    <header class="layout__topbar">
+      <div class="layout__user">
+        <span class="layout__avatar">{{ initials }}</span>
+        @if (username) {
+          <span class="layout__username">{{ username }}</span>
+        }
+        <button type="button" class="layout__logout" (click)="logout()">Sair</button>
+      </div>
+    </header>
+
+    <main class="layout__content">
+      <router-outlet />
+    </main>
+  </div>
 </div>

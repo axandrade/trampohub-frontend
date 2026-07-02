@@ -6,6 +6,7 @@ import { Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 const TOKEN_KEY = 'trampohub_token';
+const USERNAME_KEY = 'trampohub_username';
 
 export interface LoginCredentials {
   username: string;
@@ -28,11 +29,17 @@ export class AuthService {
   login(credentials: LoginCredentials): Observable<LoginResponse> {
     return this.http
       .post<LoginResponse>(`${environment.apiUrl}/token/`, credentials)
-      .pipe(tap((response) => this.setToken(response.token)));
+      .pipe(
+        tap((response) => {
+          this.setToken(response.token);
+          this.setUsername(credentials.username);
+        }),
+      );
   }
 
   logout(): void {
     this.clearToken();
+    this.clearUsername();
     this.router.navigateByUrl('/login');
   }
 
@@ -41,6 +48,13 @@ export class AuthService {
       return null;
     }
     return localStorage.getItem(TOKEN_KEY);
+  }
+
+  getUsername(): string | null {
+    if (!this.isBrowser) {
+      return null;
+    }
+    return localStorage.getItem(USERNAME_KEY);
   }
 
   isAuthenticated(): boolean {
@@ -56,6 +70,18 @@ export class AuthService {
   private clearToken(): void {
     if (this.isBrowser) {
       localStorage.removeItem(TOKEN_KEY);
+    }
+  }
+
+  private setUsername(username: string): void {
+    if (this.isBrowser) {
+      localStorage.setItem(USERNAME_KEY, username);
+    }
+  }
+
+  private clearUsername(): void {
+    if (this.isBrowser) {
+      localStorage.removeItem(USERNAME_KEY);
     }
   }
 }
