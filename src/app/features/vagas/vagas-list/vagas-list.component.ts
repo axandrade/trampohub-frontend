@@ -3,11 +3,10 @@ import { VagaService } from '../services/vaga.service';
 import { Vaga } from '../models/vaga.model';
 
 @Component({
-  selector: 'app-vagas-list',
-  standalone: true,
-  imports: [],
-  templateUrl: './vagas-list.component.html',
-  styleUrl: './vagas-list.component.css',
+    selector: 'app-vagas-list',
+    imports: [],
+    templateUrl: './vagas-list.component.html',
+    styleUrl: './vagas-list.component.css'
 })
 export class VagasListComponent implements OnInit {
   private readonly vagaService = inject(VagaService);

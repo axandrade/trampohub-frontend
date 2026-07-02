@@ -7,11 +7,10 @@ import { LogoComponent } from '../../../shared/ui/logo/logo.component';
 import { ButtonComponent } from '../../../shared/ui/button/button.component';
 
 @Component({
-  selector: 'app-cadastro',
-  standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, LogoComponent, ButtonComponent],
-  templateUrl: './cadastro.component.html',
-  styleUrl: './cadastro.component.css',
+    selector: 'app-cadastro',
+    imports: [ReactiveFormsModule, RouterLink, LogoComponent, ButtonComponent],
+    templateUrl: './cadastro.component.html',
+    styleUrl: './cadastro.component.css'
 })
 export class CadastroComponent {
   private readonly fb = inject(FormBuilder);

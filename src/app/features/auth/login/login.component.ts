@@ -7,11 +7,10 @@ import { LogoComponent } from '../../../shared/ui/logo/logo.component';
 import { ButtonComponent } from '../../../shared/ui/button/button.component';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, LogoComponent, ButtonComponent],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
+    selector: 'app-login',
+    imports: [ReactiveFormsModule, RouterLink, LogoComponent, ButtonComponent],
+    templateUrl: './login.component.html',
+    styleUrl: './login.component.css'
 })
 export class LoginComponent {
   private readonly fb = inject(FormBuilder);

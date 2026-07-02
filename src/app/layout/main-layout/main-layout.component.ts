@@ -4,11 +4,10 @@ import { AuthService } from '../../core/services/auth.service';
 import { LogoComponent } from '../../shared/ui/logo/logo.component';
 
 @Component({
-  selector: 'app-main-layout',
-  standalone: true,
-  imports: [RouterLink, RouterLinkActive, RouterOutlet, LogoComponent],
-  templateUrl: './main-layout.component.html',
-  styleUrl: './main-layout.component.css',
+    selector: 'app-main-layout',
+    imports: [RouterLink, RouterLinkActive, RouterOutlet, LogoComponent],
+    templateUrl: './main-layout.component.html',
+    styleUrl: './main-layout.component.css'
 })
 export class MainLayoutComponent {
   private readonly authService = inject(AuthService);
