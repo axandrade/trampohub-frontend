@@ -25,15 +25,20 @@
             <li class="vaga-card">
               <div class="vaga-card__header">
                 <h2 class="vaga-card__titulo">{{ vaga.titulo }}</h2>
-                <button
-                  type="button"
-                  class="vaga-card__edit-btn"
-                  aria-label="Editar vaga"
-                  title="Editar vaga"
-                  (click)="openEditVagaForm(vaga)"
-                >
-                  <i class="pi pi-pencil"></i>
-                </button>
+                <div class="vaga-card__header-actions">
+                  @if (vaga.status) {
+                    <p-tag [value]="vaga.status" [severity]="statusSeverity(vaga.status)" />
+                  }
+                  <button
+                    type="button"
+                    class="vaga-card__edit-btn"
+                    aria-label="Editar vaga"
+                    title="Editar vaga"
+                    (click)="openEditVagaForm(vaga)"
+                  >
+                    <i class="pi pi-pencil"></i>
+                  </button>
+                </div>
               </div>
               <p class="vaga-card__descricao">{{ vaga.descricao }}</p>
               <div class="vaga-card__meta">
@@ -48,6 +53,9 @@
                 }
                 @if (vaga.salario) {
                   <p-tag value="R$ {{ vaga.salario }}" severity="info" />
+                }
+                @if (vaga.data_fim) {
+                  <p-tag value="Até {{ vaga.data_fim | date: 'dd/MM/yyyy' }}" severity="secondary" />
                 }
               </div>
             </li>

@@ -119,7 +119,7 @@ export class VagasPublicasComponent implements OnInit {
       this.router.navigate(['/login'], { queryParams: { returnUrl: `/vagas-publicas?candidatar=${vaga.id}` } });
       return;
     }
-    if (this.candidaturasEnviadas.has(vaga.id)) {
+    if (this.candidaturasEnviadas.has(vaga.id) || vaga.status === 'Expirada') {
       return;
     }
     this.candidaturaVaga = vaga;

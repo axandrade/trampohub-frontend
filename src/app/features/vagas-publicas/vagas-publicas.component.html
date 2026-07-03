@@ -33,7 +33,12 @@
               <li class="vaga-card">
                 <div class="vaga-card__header">
                   <h2 class="vaga-card__titulo">{{ vaga.titulo }}</h2>
-                  <span class="vaga-card__empresa">{{ vaga.empresa }}</span>
+                  <div class="vaga-card__header-actions">
+                    @if (vaga.status) {
+                      <p-tag [value]="vaga.status" [severity]="vaga.status === 'Expirada' ? 'secondary' : 'success'" />
+                    }
+                    <span class="vaga-card__empresa">{{ vaga.empresa }}</span>
+                  </div>
                 </div>
                 <p class="vaga-card__descricao">{{ vaga.descricao }}</p>
                 <div class="vaga-card__meta">
@@ -58,6 +63,8 @@
                         <i class="pi pi-check"></i>
                         Candidatura enviada
                       </button>
+                    } @else if (vaga.status === 'Expirada') {
+                      <button pButton type="button" [outlined]="true" [disabled]="true">Vaga expirada</button>
                     } @else {
                       <button pButton type="button" (click)="candidatarVaga(vaga)">Candidatar-se</button>
                     }

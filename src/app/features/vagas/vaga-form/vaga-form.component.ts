@@ -5,6 +5,7 @@ import { ButtonDirective } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 import { Textarea } from 'primeng/textarea';
 import { Select } from 'primeng/select';
+import { DatePicker } from 'primeng/datepicker';
 import { Message } from 'primeng/message';
 import { AuthService } from '../../../core/services/auth.service';
 import { VagaService } from '../services/vaga.service';
@@ -12,7 +13,7 @@ import { Vaga } from '../models/vaga.model';
 
 @Component({
     selector: 'app-vaga-form',
-    imports: [ReactiveFormsModule, ButtonDirective, InputText, Textarea, Select, Message],
+    imports: [ReactiveFormsModule, ButtonDirective, InputText, Textarea, Select, DatePicker, Message],
     templateUrl: './vaga-form.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './vaga-form.component.css'
@@ -55,6 +56,8 @@ export class VagaFormComponent implements OnInit {
     salario: [''],
     tipo_contrato: [''],
     modalidade: [''],
+    data_inicio: [null as Date | null],
+    data_fim: [null as Date | null, Validators.required],
   });
 
   ngOnInit(): void {
@@ -66,6 +69,8 @@ export class VagaFormComponent implements OnInit {
         salario: this.vaga.salario ?? '',
         tipo_contrato: this.vaga.tipo_contrato ?? '',
         modalidade: this.vaga.modalidade ?? '',
+        data_inicio: this.vaga.data_inicio ? new Date(this.vaga.data_inicio) : null,
+        data_fim: this.vaga.data_fim ? new Date(this.vaga.data_fim) : null,
       });
     }
   }
@@ -76,10 +81,17 @@ export class VagaFormComponent implements OnInit {
       return;
     }
 
+    if (this.form.controls.data_inicio.value && this.form.controls.data_fim.value) {
+      if (this.form.controls.data_inicio.value > this.form.controls.data_fim.value) {
+        this.errorMessage = 'A data final deve ser depois da data inicial.';
+        return;
+      }
+    }
+
     this.loading = true;
     this.errorMessage = null;
 
-    const { titulo, descricao, empresa, localizacao, salario, tipo_contrato, modalidade } =
+    const { titulo, descricao, empresa, localizacao, salario, tipo_contrato, modalidade, data_inicio, data_fim } =
       this.form.getRawValue();
 
     const payload = {
@@ -90,6 +102,8 @@ export class VagaFormComponent implements OnInit {
       salario: salario || undefined,
       tipo_contrato: tipo_contrato || undefined,
       modalidade: modalidade || undefined,
+      data_inicio: data_inicio ? data_inicio.toISOString() : undefined,
+      data_fim: data_fim!.toISOString(),
     };
 
     const request$ = this.vaga ? this.vagaService.update(this.vaga.id, payload) : this.vagaService.create(payload);
@@ -112,7 +126,8 @@ export class VagaFormComponent implements OnInit {
 
   private extractErrorMessage(error: HttpErrorResponse): string {
     const body = error.error as Record<string, string[]> | undefined;
-    const fieldError = body?.['titulo']?.[0] ?? body?.['descricao']?.[0] ?? body?.['empresa']?.[0];
+    const fieldError =
+      body?.['titulo']?.[0] ?? body?.['descricao']?.[0] ?? body?.['empresa']?.[0] ?? body?.['data_fim']?.[0];
     return fieldError ?? 'Não foi possível cadastrar a vaga agora. Tente novamente em instantes.';
   }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { DataView } from 'primeng/dataview';
 import { Tag } from 'primeng/tag';
@@ -17,11 +18,13 @@ const STATUS_SEVERIDADE: Record<string, 'warn' | 'info' | 'success' | 'danger' |
   'Em analise': 'info',
   Aprovado: 'success',
   Rejeitado: 'danger',
+  Aberta: 'success',
+  Expirada: 'secondary',
 };
 
 @Component({
     selector: 'app-vagas-list',
-    imports: [RouterLink, DataView, Tag, Message, Dialog, ButtonDirective, VagaFormComponent],
+    imports: [RouterLink, DatePipe, DataView, Tag, Message, Dialog, ButtonDirective, VagaFormComponent],
     templateUrl: './vagas-list.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './vagas-list.component.css'

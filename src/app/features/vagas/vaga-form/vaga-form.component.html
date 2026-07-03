@@ -63,6 +63,34 @@
 
     <div class="vaga-form__row">
       <div class="field">
+        <label class="field__label" for="data_inicio">Início das candidaturas</label>
+        <p-datepicker
+          inputId="data_inicio"
+          dateFormat="dd/mm/yy"
+          [fluid]="true"
+          [showIcon]="true"
+          formControlName="data_inicio"
+        />
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="data_fim">Encerramento das candidaturas</label>
+        <p-datepicker
+          inputId="data_fim"
+          dateFormat="dd/mm/yy"
+          [fluid]="true"
+          [showIcon]="true"
+          [invalid]="form.controls.data_fim.invalid && form.controls.data_fim.touched"
+          formControlName="data_fim"
+        />
+        @if (form.controls.data_fim.invalid && form.controls.data_fim.touched) {
+          <span class="field__error">Informe até quando a vaga aceita candidaturas.</span>
+        }
+      </div>
+    </div>
+
+    <div class="vaga-form__row">
+      <div class="field">
         <span class="field__label">Tipo de contrato</span>
         <p-select
           [options]="tipoContratoOptions"
