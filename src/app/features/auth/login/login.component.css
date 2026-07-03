@@ -69,6 +69,20 @@
   margin-top: var(--space-6);
 }
 
+.login__back-link {
+  display: block;
+  margin-top: var(--space-5);
+  text-align: center;
+  color: var(--color-navy-600);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login__back-link:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 900px) {
   .login {
     grid-template-columns: 1fr;

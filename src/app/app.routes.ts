@@ -11,6 +11,11 @@ export const routes: Routes = [
     loadComponent: () => import('./features/auth/cadastro/cadastro.component').then((m) => m.CadastroComponent),
   },
   {
+    path: 'vagas-publicas',
+    loadComponent: () =>
+      import('./features/vagas-publicas/vagas-publicas.component').then((m) => m.VagasPublicasComponent),
+  },
+  {
     path: '',
     loadComponent: () => import('./layout/main-layout/main-layout.component').then((m) => m.MainLayoutComponent),
     canActivate: [authGuard],
