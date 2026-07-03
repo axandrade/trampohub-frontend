@@ -42,7 +42,7 @@ export class VagaFormComponent {
   form = this.fb.nonNullable.group({
     titulo: ['', Validators.required],
     descricao: ['', Validators.required],
-    empresa: [this.authService.getNomeEmpresa() ?? '', Validators.required],
+    empresa: [{ value: this.authService.getNomeEmpresa() ?? '', disabled: true }, Validators.required],
     localizacao: [''],
     salario: [''],
     tipo_contrato: [''],
