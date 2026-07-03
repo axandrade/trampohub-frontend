@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
-import { empresaGuard } from './core/guards/empresa.guard';
 
 export const routes: Routes = [
   {
@@ -25,12 +24,6 @@ export const routes: Routes = [
         path: 'vagas',
         loadComponent: () =>
           import('./features/vagas/vagas-list/vagas-list.component').then((m) => m.VagasListComponent),
-      },
-      {
-        path: 'vagas/nova',
-        canActivate: [empresaGuard],
-        loadComponent: () =>
-          import('./features/vagas/vaga-form/vaga-form.component').then((m) => m.VagaFormComponent),
       },
     ],
   },

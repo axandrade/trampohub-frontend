@@ -1,6 +1,5 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, output, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ButtonDirective } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
@@ -9,6 +8,7 @@ import { Select } from 'primeng/select';
 import { Message } from 'primeng/message';
 import { AuthService } from '../../../core/services/auth.service';
 import { VagaService } from '../services/vaga.service';
+import { Vaga } from '../models/vaga.model';
 
 @Component({
     selector: 'app-vaga-form',
@@ -21,7 +21,9 @@ export class VagaFormComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly vagaService = inject(VagaService);
-  private readonly router = inject(Router);
+
+  readonly saved = output<Vaga>();
+  readonly cancelled = output<void>();
 
   readonly tipoContratoOptions = [
     { label: 'CLT', value: 'CLT' },
@@ -72,15 +74,19 @@ export class VagaFormComponent {
         modalidade: modalidade || undefined,
       })
       .subscribe({
-        next: () => {
+        next: (vaga) => {
           this.loading = false;
-          this.router.navigateByUrl('/vagas');
+          this.saved.emit(vaga);
         },
         error: (error: HttpErrorResponse) => {
           this.loading = false;
           this.errorMessage = this.extractErrorMessage(error);
         },
       });
+  }
+
+  cancel(): void {
+    this.cancelled.emit();
   }
 
   private extractErrorMessage(error: HttpErrorResponse): string {

@@ -9,6 +9,14 @@
   padding: var(--space-8) var(--space-6);
 }
 
+.vagas__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
 .vagas__title {
   font-size: 1.75rem;
   color: var(--color-gray-900);

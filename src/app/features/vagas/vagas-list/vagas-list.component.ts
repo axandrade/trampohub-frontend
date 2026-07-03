@@ -2,22 +2,32 @@ import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/cor
 import { DataView } from 'primeng/dataview';
 import { Tag } from 'primeng/tag';
 import { Message } from 'primeng/message';
+import { Dialog } from 'primeng/dialog';
+import { ButtonDirective } from 'primeng/button';
+import { AuthService } from '../../../core/services/auth.service';
 import { VagaService } from '../services/vaga.service';
 import { Vaga } from '../models/vaga.model';
+import { VagaFormComponent } from '../vaga-form/vaga-form.component';
 
 @Component({
     selector: 'app-vagas-list',
-    imports: [DataView, Tag, Message],
+    imports: [DataView, Tag, Message, Dialog, ButtonDirective, VagaFormComponent],
     templateUrl: './vagas-list.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './vagas-list.component.css'
 })
 export class VagasListComponent implements OnInit {
+  private readonly authService = inject(AuthService);
   private readonly vagaService = inject(VagaService);
 
   vagas: Vaga[] = [];
   loading = true;
   errorMessage: string | null = null;
+  showForm = false;
+
+  get isEmpresa(): boolean {
+    return this.authService.isEmpresa();
+  }
 
   ngOnInit(): void {
     this.vagaService.list().subscribe({
@@ -30,5 +40,10 @@ export class VagasListComponent implements OnInit {
         this.loading = false;
       },
     });
+  }
+
+  onVagaSaved(vaga: Vaga): void {
+    this.vagas = [vaga, ...this.vagas];
+    this.showForm = false;
   }
 }

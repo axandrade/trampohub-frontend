@@ -1,7 +1,4 @@
 <div class="vaga-form">
-  <h1 class="vaga-form__title">Cadastrar vaga</h1>
-  <p class="vaga-form__subtitle">Preencha os dados da vaga que sua empresa deseja anunciar.</p>
-
   <form class="vaga-form__form" [formGroup]="form" (ngSubmit)="submit()">
     @if (errorMessage) {
       <p-message severity="error" styleClass="w-full">{{ errorMessage }}</p-message>
@@ -90,11 +87,14 @@
       </div>
     </div>
 
-    <button pButton type="submit" [fluid]="true" [disabled]="loading">
-      @if (loading) {
-        <i class="pi pi-spinner pi-spin"></i>
-      }
-      Cadastrar vaga
-    </button>
+    <div class="vaga-form__actions">
+      <button pButton type="button" [outlined]="true" [disabled]="loading" (click)="cancel()">Cancelar</button>
+      <button pButton type="submit" [disabled]="loading">
+        @if (loading) {
+          <i class="pi pi-spinner pi-spin"></i>
+        }
+        Cadastrar vaga
+      </button>
+    </div>
   </form>
 </div>

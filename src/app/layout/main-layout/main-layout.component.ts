@@ -24,10 +24,6 @@ export class MainLayoutComponent {
     return username ? username.charAt(0).toUpperCase() : '?';
   }
 
-  get isEmpresa(): boolean {
-    return this.authService.isEmpresa();
-  }
-
   logout(): void {
     this.authService.logout();
   }
