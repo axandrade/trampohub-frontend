@@ -28,3 +28,18 @@
   gap: var(--space-3);
   margin-top: var(--space-2);
 }
+
+@media (max-width: 560px) {
+  .vaga-form__row {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .vaga-form__actions {
+    flex-direction: column-reverse;
+  }
+
+  .vaga-form__actions button {
+    width: 100%;
+  }
+}

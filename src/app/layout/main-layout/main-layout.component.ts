@@ -16,11 +16,21 @@ import { LogoComponent } from '../../shared/ui/logo/logo.component';
 export class MainLayoutComponent {
   private readonly authService = inject(AuthService);
 
+  sidebarOpen = false;
+
   readonly userMenuItems: MenuItem[] = [
     { label: 'Editar perfil', icon: 'pi pi-user-edit', routerLink: '/perfil/editar' },
     { separator: true },
     { label: 'Sair', icon: 'pi pi-sign-out', command: () => this.logout() },
   ];
+
+  toggleSidebar(): void {
+    this.sidebarOpen = !this.sidebarOpen;
+  }
+
+  closeSidebar(): void {
+    this.sidebarOpen = false;
+  }
 
   get username(): string | null {
     return this.authService.getUsername();

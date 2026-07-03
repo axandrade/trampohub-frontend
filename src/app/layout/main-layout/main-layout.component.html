@@ -1,15 +1,23 @@
 <div class="layout">
-  <aside class="layout__sidebar">
+  @if (sidebarOpen) {
+    <div class="layout__backdrop" (click)="closeSidebar()"></div>
+  }
+
+  <aside class="layout__sidebar" [class.layout__sidebar--open]="sidebarOpen">
     <app-logo variant="full" theme="light" class="layout__logo" />
 
     <nav class="layout__nav">
-      <a class="layout__nav-link" routerLink="/home" routerLinkActive="layout__nav-link--active">Início</a>
-      <a class="layout__nav-link" routerLink="/vagas" routerLinkActive="layout__nav-link--active">Vagas</a>
+      <a class="layout__nav-link" routerLink="/home" routerLinkActive="layout__nav-link--active" (click)="closeSidebar()">Início</a>
+      <a class="layout__nav-link" routerLink="/vagas" routerLinkActive="layout__nav-link--active" (click)="closeSidebar()">Vagas</a>
     </nav>
   </aside>
 
   <div class="layout__main">
     <header class="layout__topbar">
+      <button type="button" class="layout__menu-toggle" aria-label="Abrir menu" (click)="toggleSidebar()">
+        <i class="pi pi-bars"></i>
+      </button>
+
       <button type="button" class="layout__user" (click)="userMenu.toggle($event)">
         <p-avatar [label]="initials" shape="circle" class="layout__avatar" />
         @if (username) {

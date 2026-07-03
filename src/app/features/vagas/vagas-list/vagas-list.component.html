@@ -68,6 +68,7 @@
     [modal]="true"
     [dismissableMask]="true"
     [style]="{ width: '640px' }"
+    [breakpoints]="{ '640px': '92vw' }"
   >
     @if (showForm) {
       <app-vaga-form [vaga]="editingVaga" (saved)="onVagaSaved($event)" (cancelled)="showForm = false" />
