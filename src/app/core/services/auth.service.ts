@@ -32,6 +32,7 @@ export interface CadastroPayload {
   tipo: TipoUsuario;
   nome_empresa?: string;
   foto?: File | null;
+  email?: string;
 }
 
 export interface CadastroResponse {
@@ -75,6 +76,9 @@ export class AuthService {
     }
     if (payload.foto) {
       formData.append('foto', payload.foto);
+    }
+    if (payload.email) {
+      formData.append('email', payload.email);
     }
     return this.http.post<CadastroResponse>(`${environment.apiUrl}/cadastro/`, formData);
   }

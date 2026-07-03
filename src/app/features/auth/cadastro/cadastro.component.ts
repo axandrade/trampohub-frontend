@@ -58,6 +58,7 @@ export class CadastroComponent {
     username: ['', Validators.required],
     password: ['', [Validators.required, Validators.minLength(6)]],
     nome_empresa: [''],
+    email: ['', Validators.email],
   });
 
   get isEmpregador(): boolean {
@@ -140,6 +141,14 @@ export class CadastroComponent {
     }
     nomeEmpresaControl.updateValueAndValidity();
 
+    const emailControl = this.form.controls.email;
+    if (this.isCandidato) {
+      emailControl.addValidators(Validators.required);
+    } else {
+      emailControl.removeValidators(Validators.required);
+    }
+    emailControl.updateValueAndValidity();
+
     this.fotoTouched = true;
     const fotoValid = this.validateFoto();
 
@@ -151,7 +160,7 @@ export class CadastroComponent {
     this.loading = true;
     this.errorMessage = null;
 
-    const { tipo, username, password, nome_empresa } = this.form.getRawValue();
+    const { tipo, username, password, nome_empresa, email } = this.form.getRawValue();
 
     this.authService
       .register({
@@ -160,6 +169,7 @@ export class CadastroComponent {
         password,
         nome_empresa: tipo === 'empregador' ? nome_empresa : undefined,
         foto: tipo === 'candidato' ? this.selectedFoto : undefined,
+        email: tipo === 'candidato' ? email : undefined,
       })
       .subscribe({
         next: () => {
@@ -176,7 +186,11 @@ export class CadastroComponent {
   private extractErrorMessage(error: HttpErrorResponse): string {
     const body = error.error as Record<string, string[]> | undefined;
     const fieldError =
-      body?.['username']?.[0] ?? body?.['password']?.[0] ?? body?.['nome_empresa']?.[0] ?? body?.['foto']?.[0];
+      body?.['username']?.[0] ??
+      body?.['password']?.[0] ??
+      body?.['nome_empresa']?.[0] ??
+      body?.['foto']?.[0] ??
+      body?.['email']?.[0];
     return fieldError ?? 'Não foi possível concluir o cadastro agora. Tente novamente em instantes.';
   }
 }

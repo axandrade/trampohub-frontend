@@ -21,6 +21,7 @@ export const appConfig: ApplicationConfig = {
           darkModeSelector: false,
         },
       },
+      overlayAppendTo: 'body',
     }),
   ],
 };

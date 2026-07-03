@@ -77,6 +77,26 @@
 
           @if (isCandidato) {
             <div class="field">
+              <label class="field__label" for="email">E-mail</label>
+              <input
+                pInputText
+                id="email"
+                type="email"
+                [fluid]="true"
+                [invalid]="form.controls.email.invalid && form.controls.email.touched"
+                formControlName="email"
+                autocomplete="email"
+              />
+              @if (form.controls.email.hasError('required') && form.controls.email.touched) {
+                <span class="field__error">Informe seu e-mail.</span>
+              } @else if (form.controls.email.hasError('email') && form.controls.email.touched) {
+                <span class="field__error">Informe um e-mail válido.</span>
+              }
+            </div>
+          }
+
+          @if (isCandidato) {
+            <div class="field">
               <span class="field__label">Foto de perfil</span>
               <div class="foto-picker">
                 <div class="foto-picker__preview" [class.foto-picker__preview--empty]="!previewUrl">
