@@ -1,6 +1,6 @@
 <div class="vagas">
   <div class="vagas__header">
-    <h1 class="vagas__title">Vagas disponíveis</h1>
+    <h1 class="vagas__title">{{ isEmpresa ? 'Minhas vagas' : 'Minhas candidaturas' }}</h1>
     @if (isEmpresa) {
       <button pButton type="button" (click)="openNewVagaForm()">
         <i class="pi pi-plus"></i>
@@ -11,10 +11,10 @@
 
   @if (errorMessage) {
     <p-message severity="error" styleClass="w-full">{{ errorMessage }}</p-message>
-  } @else {
+  } @else if (isEmpresa) {
     <p-dataview [value]="vagas" [loading]="loading">
       <ng-template #list let-items>
-        @if (isEmpresa && items.length) {
+        @if (items.length) {
           <div class="vagas__list-header">
             <span>Vaga</span>
             <span>Editar</span>
@@ -25,17 +25,15 @@
             <li class="vaga-card">
               <div class="vaga-card__header">
                 <h2 class="vaga-card__titulo">{{ vaga.titulo }}</h2>
-                @if (isEmpresa) {
-                  <button
-                    type="button"
-                    class="vaga-card__edit-btn"
-                    aria-label="Editar vaga"
-                    title="Editar vaga"
-                    (click)="openEditVagaForm(vaga)"
-                  >
-                    <i class="pi pi-pencil"></i>
-                  </button>
-                }
+                <button
+                  type="button"
+                  class="vaga-card__edit-btn"
+                  aria-label="Editar vaga"
+                  title="Editar vaga"
+                  (click)="openEditVagaForm(vaga)"
+                >
+                  <i class="pi pi-pencil"></i>
+                </button>
               </div>
               <p class="vaga-card__descricao">{{ vaga.descricao }}</p>
               <div class="vaga-card__meta">
@@ -58,6 +56,42 @@
       </ng-template>
       <ng-template #emptymessage>
         <p class="vagas__status">Nenhuma vaga disponível no momento.</p>
+      </ng-template>
+    </p-dataview>
+  } @else {
+    <p-dataview [value]="candidaturas" [loading]="loading">
+      <ng-template #list let-items>
+        <ul class="vagas__list">
+          @for (candidatura of items; track candidatura.id) {
+            <li class="vaga-card">
+              <div class="vaga-card__header">
+                <h2 class="vaga-card__titulo">{{ candidatura.vaga_detalhes.titulo }}</h2>
+                <p-tag [value]="candidatura.status" [severity]="statusSeverity(candidatura.status)" />
+              </div>
+              <span class="vaga-card__empresa">{{ candidatura.vaga_detalhes.empresa }}</span>
+              @if (candidatura.mensagem) {
+                <p class="vaga-card__mensagem">"{{ candidatura.mensagem }}"</p>
+              }
+              <div class="vaga-card__meta">
+                @if (candidatura.vaga_detalhes.localizacao) {
+                  <p-tag value="{{ candidatura.vaga_detalhes.localizacao }}" severity="secondary" />
+                }
+                @if (candidatura.vaga_detalhes.modalidade) {
+                  <p-tag value="{{ candidatura.vaga_detalhes.modalidade }}" severity="secondary" />
+                }
+                @if (candidatura.vaga_detalhes.tipo_contrato) {
+                  <p-tag value="{{ candidatura.vaga_detalhes.tipo_contrato }}" severity="secondary" />
+                }
+              </div>
+            </li>
+          }
+        </ul>
+      </ng-template>
+      <ng-template #emptymessage>
+        <p class="vagas__status">
+          Você ainda não se candidatou a nenhuma vaga.
+          <a routerLink="/vagas-publicas">Veja as vagas disponíveis</a>.
+        </p>
       </ng-template>
     </p-dataview>
   }

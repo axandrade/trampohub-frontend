@@ -10,6 +10,10 @@ import { Candidatura, NovaCandidaturaPayload } from '../models/candidatura.model
 export class CandidaturaService {
   private readonly http = inject(HttpClient);
 
+  list(): Observable<Candidatura[]> {
+    return this.http.get<Candidatura[]>(`${environment.apiUrl}/candidaturas/`);
+  }
+
   create(payload: NovaCandidaturaPayload): Observable<Candidatura> {
     return this.http.post<Candidatura>(`${environment.apiUrl}/candidaturas/`, payload);
   }

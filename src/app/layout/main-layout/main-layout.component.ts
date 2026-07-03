@@ -32,6 +32,10 @@ export class MainLayoutComponent {
     this.sidebarOpen = false;
   }
 
+  get isEmpresa(): boolean {
+    return this.authService.isEmpresa();
+  }
+
   get username(): string | null {
     return this.authService.getUsername();
   }

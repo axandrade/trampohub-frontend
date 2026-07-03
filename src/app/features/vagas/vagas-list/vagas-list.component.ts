@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { DataView } from 'primeng/dataview';
 import { Tag } from 'primeng/tag';
 import { Message } from 'primeng/message';
@@ -6,12 +7,21 @@ import { Dialog } from 'primeng/dialog';
 import { ButtonDirective } from 'primeng/button';
 import { AuthService } from '../../../core/services/auth.service';
 import { VagaService } from '../services/vaga.service';
+import { CandidaturaService } from '../services/candidatura.service';
 import { Vaga } from '../models/vaga.model';
+import { Candidatura } from '../models/candidatura.model';
 import { VagaFormComponent } from '../vaga-form/vaga-form.component';
+
+const STATUS_SEVERIDADE: Record<string, 'warn' | 'info' | 'success' | 'danger' | 'secondary'> = {
+  Pendente: 'warn',
+  'Em analise': 'info',
+  Aprovado: 'success',
+  Rejeitado: 'danger',
+};
 
 @Component({
     selector: 'app-vagas-list',
-    imports: [DataView, Tag, Message, Dialog, ButtonDirective, VagaFormComponent],
+    imports: [RouterLink, DataView, Tag, Message, Dialog, ButtonDirective, VagaFormComponent],
     templateUrl: './vagas-list.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './vagas-list.component.css'
@@ -19,8 +29,10 @@ import { VagaFormComponent } from '../vaga-form/vaga-form.component';
 export class VagasListComponent implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly vagaService = inject(VagaService);
+  private readonly candidaturaService = inject(CandidaturaService);
 
   vagas: Vaga[] = [];
+  candidaturas: Candidatura[] = [];
   loading = true;
   errorMessage: string | null = null;
   showForm = false;
@@ -31,16 +43,33 @@ export class VagasListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.vagaService.list().subscribe({
-      next: (vagas) => {
-        this.vagas = vagas;
-        this.loading = false;
-      },
-      error: () => {
-        this.errorMessage = 'Não foi possível carregar as vagas agora. Tente novamente em instantes.';
-        this.loading = false;
-      },
-    });
+    if (this.isEmpresa) {
+      this.vagaService.list().subscribe({
+        next: (vagas) => {
+          this.vagas = vagas;
+          this.loading = false;
+        },
+        error: () => {
+          this.errorMessage = 'Não foi possível carregar as vagas agora. Tente novamente em instantes.';
+          this.loading = false;
+        },
+      });
+    } else {
+      this.candidaturaService.list().subscribe({
+        next: (candidaturas) => {
+          this.candidaturas = candidaturas;
+          this.loading = false;
+        },
+        error: () => {
+          this.errorMessage = 'Não foi possível carregar suas candidaturas agora. Tente novamente em instantes.';
+          this.loading = false;
+        },
+      });
+    }
+  }
+
+  statusSeverity(status: string): 'warn' | 'info' | 'success' | 'danger' | 'secondary' {
+    return STATUS_SEVERIDADE[status] ?? 'secondary';
   }
 
   openNewVagaForm(): void {

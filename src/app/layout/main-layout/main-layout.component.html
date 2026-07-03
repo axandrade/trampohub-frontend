@@ -8,7 +8,12 @@
 
     <nav class="layout__nav">
       <a class="layout__nav-link" routerLink="/home" routerLinkActive="layout__nav-link--active" (click)="closeSidebar()">Início</a>
-      <a class="layout__nav-link" routerLink="/vagas" routerLinkActive="layout__nav-link--active" (click)="closeSidebar()">Vagas</a>
+      @if (!isEmpresa) {
+        <a class="layout__nav-link" routerLink="/vagas-publicas" (click)="closeSidebar()">Vagas disponíveis</a>
+      }
+      <a class="layout__nav-link" routerLink="/vagas" routerLinkActive="layout__nav-link--active" (click)="closeSidebar()">
+        {{ isEmpresa ? 'Minhas vagas' : 'Minhas candidaturas' }}
+      </a>
     </nav>
   </aside>
 

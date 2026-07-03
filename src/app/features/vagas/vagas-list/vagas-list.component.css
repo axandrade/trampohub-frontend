@@ -107,8 +107,19 @@
   font-size: 0.9rem;
 }
 
+.vaga-card__empresa {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-navy-600);
+}
+
 .vaga-card__descricao {
   color: var(--color-gray-700);
+}
+
+.vaga-card__mensagem {
+  color: var(--color-gray-700);
+  font-style: italic;
 }
 
 .vaga-card__meta {
