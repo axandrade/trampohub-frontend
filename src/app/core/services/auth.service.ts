@@ -31,6 +31,7 @@ export interface CadastroPayload {
   password: string;
   tipo: TipoUsuario;
   nome_empresa?: string;
+  foto?: File | null;
 }
 
 export interface CadastroResponse {
@@ -65,7 +66,17 @@ export class AuthService {
   }
 
   register(payload: CadastroPayload): Observable<CadastroResponse> {
-    return this.http.post<CadastroResponse>(`${environment.apiUrl}/cadastro/`, payload);
+    const formData = new FormData();
+    formData.append('username', payload.username);
+    formData.append('password', payload.password);
+    formData.append('tipo', payload.tipo);
+    if (payload.nome_empresa) {
+      formData.append('nome_empresa', payload.nome_empresa);
+    }
+    if (payload.foto) {
+      formData.append('foto', payload.foto);
+    }
+    return this.http.post<CadastroResponse>(`${environment.apiUrl}/cadastro/`, formData);
   }
 
   logout(): void {

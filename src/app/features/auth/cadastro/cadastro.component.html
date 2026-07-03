@@ -75,6 +75,42 @@
             }
           </div>
 
+          @if (isCandidato) {
+            <div class="field">
+              <span class="field__label">Foto de perfil</span>
+              <div class="foto-picker">
+                <div class="foto-picker__preview" [class.foto-picker__preview--empty]="!previewUrl">
+                  @if (previewUrl) {
+                    <img [src]="previewUrl" alt="Prévia da foto de perfil" class="foto-picker__preview-img" />
+                  } @else {
+                    <i class="pi pi-user foto-picker__preview-icon"></i>
+                  }
+                </div>
+                <div class="foto-picker__actions">
+                  <button pButton type="button" size="small" [outlined]="true" (click)="fotoInput.click()">
+                    <i class="pi pi-camera"></i>
+                    {{ previewUrl ? 'Trocar foto' : 'Escolher foto' }}
+                  </button>
+                  @if (previewUrl) {
+                    <button pButton type="button" size="small" [text]="true" severity="danger" (click)="removeFoto()">
+                      Remover
+                    </button>
+                  }
+                </div>
+                <input
+                  #fotoInput
+                  class="foto-picker__input"
+                  type="file"
+                  accept="image/*"
+                  (change)="onFileSelected($event)"
+                />
+              </div>
+              @if (fotoError && fotoTouched) {
+                <span class="field__error">{{ fotoError }}</span>
+              }
+            </div>
+          }
+
           @if (isEmpregador) {
             <div class="field">
               <label class="field__label" for="nome_empresa">Nome da empresa</label>
@@ -104,4 +140,32 @@
       }
     </div>
   </section>
+
+  @if (cropperImageChangedEvent) {
+    <div class="cropper-overlay">
+      <div class="cropper-overlay__panel">
+        <h2 class="cropper-overlay__title">Ajustar foto</h2>
+        <p class="cropper-overlay__subtitle">Arraste para reposicionar e use o zoom para ajustar o enquadramento.</p>
+
+        <image-cropper
+          class="cropper-overlay__cropper"
+          [imageChangedEvent]="cropperImageChangedEvent"
+          [maintainAspectRatio]="true"
+          [aspectRatio]="1"
+          [roundCropper]="true"
+          format="png"
+          output="blob"
+          [resizeToWidth]="480"
+          [resizeToHeight]="480"
+          (imageCropped)="onImageCropped($event)"
+          (loadImageFailed)="onLoadImageFailed()"
+        ></image-cropper>
+
+        <div class="cropper-overlay__actions">
+          <button pButton type="button" [outlined]="true" (click)="cancelCrop()">Cancelar</button>
+          <button pButton type="button" (click)="confirmCrop()">Usar esta foto</button>
+        </div>
+      </div>
+    </div>
+  }
 </div>
