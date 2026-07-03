@@ -2,13 +2,14 @@ import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Avatar } from 'primeng/avatar';
 import { Menu } from 'primeng/menu';
+import { ButtonDirective } from 'primeng/button';
 import type { MenuItem } from 'primeng/api';
 import { AuthService } from '../../core/services/auth.service';
 import { LogoComponent } from '../../shared/ui/logo/logo.component';
 
 @Component({
     selector: 'app-main-layout',
-    imports: [RouterLink, RouterLinkActive, RouterOutlet, LogoComponent, Avatar, Menu],
+    imports: [RouterLink, RouterLinkActive, RouterOutlet, LogoComponent, Avatar, Menu, ButtonDirective],
     templateUrl: './main-layout.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './main-layout.component.css'

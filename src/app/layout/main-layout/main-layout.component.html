@@ -20,6 +20,13 @@
         <i class="pi pi-bars"></i>
       </button>
 
+      @if (!isEmpresa) {
+        <a pButton class="layout__vagas-publicas-link" routerLink="/vagas-publicas">
+          <i class="pi pi-compass"></i>
+          Vagas disponíveis
+        </a>
+      }
+
       <button type="button" class="layout__user" (click)="userMenu.toggle($event)">
         <p-avatar [label]="initials" shape="circle" class="layout__avatar" />
         @if (username) {

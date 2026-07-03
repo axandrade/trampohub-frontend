@@ -88,6 +88,10 @@
   display: none;
 }
 
+.layout__vagas-publicas-link {
+  text-decoration: none;
+}
+
 .layout__user {
   display: flex;
   align-items: center;
