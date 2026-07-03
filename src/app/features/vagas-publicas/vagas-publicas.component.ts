@@ -2,6 +2,7 @@ import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/cor
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { forkJoin, of } from 'rxjs';
 import { DataView } from 'primeng/dataview';
 import { Tag } from 'primeng/tag';
 import { Message } from 'primeng/message';
@@ -82,9 +83,15 @@ export class VagasPublicasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.vagaService.list().subscribe({
-      next: (vagas) => {
+    const podeTerCandidatado = this.authService.isAuthenticated() && !this.isEmpresa;
+
+    forkJoin({
+      vagas: this.vagaService.list(),
+      candidaturas: podeTerCandidatado ? this.candidaturaService.list() : of([]),
+    }).subscribe({
+      next: ({ vagas, candidaturas }) => {
         this.vagas = vagas;
+        this.candidaturasEnviadas = new Set(candidaturas.map((c) => c.vaga));
         this.loading = false;
         this.abrirCandidaturaPendente();
       },
@@ -97,7 +104,7 @@ export class VagasPublicasComponent implements OnInit {
 
   private abrirCandidaturaPendente(): void {
     const vagaId = this.route.snapshot.queryParamMap.get('candidatar');
-    if (!vagaId || !this.authService.isAuthenticated() || this.isEmpresa) {
+    if (!vagaId || !this.authService.isAuthenticated() || this.isEmpresa || this.candidaturasEnviadas.has(vagaId)) {
       return;
     }
     const vaga = this.vagas.find((v) => v.id === vagaId);
@@ -110,6 +117,9 @@ export class VagasPublicasComponent implements OnInit {
   candidatarVaga(vaga: Vaga): void {
     if (!this.authService.isAuthenticated()) {
       this.router.navigate(['/login'], { queryParams: { returnUrl: `/vagas-publicas?candidatar=${vaga.id}` } });
+      return;
+    }
+    if (this.candidaturasEnviadas.has(vaga.id)) {
       return;
     }
     this.candidaturaVaga = vaga;
