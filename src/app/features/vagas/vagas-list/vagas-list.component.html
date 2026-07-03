@@ -1,37 +1,40 @@
 <div class="vagas">
   <h1 class="vagas__title">Vagas disponíveis</h1>
 
-  @if (loading) {
-    <p class="vagas__status">Carregando vagas...</p>
-  } @else if (errorMessage) {
-    <div class="alert alert--danger" role="alert">{{ errorMessage }}</div>
-  } @else if (vagas.length === 0) {
-    <p class="vagas__status">Nenhuma vaga disponível no momento.</p>
+  @if (errorMessage) {
+    <p-message severity="error" styleClass="w-full">{{ errorMessage }}</p-message>
   } @else {
-    <ul class="vagas__list">
-      @for (vaga of vagas; track vaga.id) {
-        <li class="vaga-card">
-          <div class="vaga-card__header">
-            <h2 class="vaga-card__titulo">{{ vaga.titulo }}</h2>
-            <span class="vaga-card__empresa">{{ vaga.empresa }}</span>
-          </div>
-          <p class="vaga-card__descricao">{{ vaga.descricao }}</p>
-          <div class="vaga-card__meta">
-            @if (vaga.localizacao) {
-              <span class="vaga-card__tag">{{ vaga.localizacao }}</span>
-            }
-            @if (vaga.modalidade) {
-              <span class="vaga-card__tag">{{ vaga.modalidade }}</span>
-            }
-            @if (vaga.tipo_contrato) {
-              <span class="vaga-card__tag">{{ vaga.tipo_contrato }}</span>
-            }
-            @if (vaga.salario) {
-              <span class="vaga-card__tag vaga-card__tag--salario">R$ {{ vaga.salario }}</span>
-            }
-          </div>
-        </li>
-      }
-    </ul>
+    <p-dataview [value]="vagas" [loading]="loading">
+      <ng-template #list let-items>
+        <ul class="vagas__list">
+          @for (vaga of items; track vaga.id) {
+            <li class="vaga-card">
+              <div class="vaga-card__header">
+                <h2 class="vaga-card__titulo">{{ vaga.titulo }}</h2>
+                <span class="vaga-card__empresa">{{ vaga.empresa }}</span>
+              </div>
+              <p class="vaga-card__descricao">{{ vaga.descricao }}</p>
+              <div class="vaga-card__meta">
+                @if (vaga.localizacao) {
+                  <p-tag value="{{ vaga.localizacao }}" severity="secondary" />
+                }
+                @if (vaga.modalidade) {
+                  <p-tag value="{{ vaga.modalidade }}" severity="secondary" />
+                }
+                @if (vaga.tipo_contrato) {
+                  <p-tag value="{{ vaga.tipo_contrato }}" severity="secondary" />
+                }
+                @if (vaga.salario) {
+                  <p-tag value="R$ {{ vaga.salario }}" severity="info" />
+                }
+              </div>
+            </li>
+          }
+        </ul>
+      </ng-template>
+      <ng-template #emptymessage>
+        <p class="vagas__status">Nenhuma vaga disponível no momento.</p>
+      </ng-template>
+    </p-dataview>
   }
 </div>

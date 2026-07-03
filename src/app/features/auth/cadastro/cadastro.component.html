@@ -11,43 +11,36 @@
       @if (success) {
         <h1 class="cadastro__title">Cadastro concluído!</h1>
         <p class="cadastro__subtitle">Sua conta foi criada com sucesso. Agora é só entrar.</p>
-        <app-button variant="primary" class="cadastro__submit" routerLink="/login">Ir para o login</app-button>
+        <p-button label="Ir para o login" styleClass="cadastro__submit" [fluid]="true" routerLink="/login" />
       } @else {
         <h1 class="cadastro__title">Criar conta</h1>
         <p class="cadastro__subtitle">Escolha o tipo de conta e preencha seus dados.</p>
 
         <form class="cadastro__form" [formGroup]="form" (ngSubmit)="submit()">
           @if (errorMessage) {
-            <div class="alert alert--danger" role="alert">{{ errorMessage }}</div>
+            <p-message severity="error" styleClass="w-full">{{ errorMessage }}</p-message>
           }
 
           <div class="field">
             <span class="field__label">Eu sou</span>
-            <div class="tipo-toggle">
-              <label
-                class="tipo-toggle__option"
-                [class.tipo-toggle__option--active]="form.controls.tipo.value === 'candidato'"
-              >
-                <input type="radio" formControlName="tipo" value="candidato" />
-                Candidato
-              </label>
-              <label
-                class="tipo-toggle__option"
-                [class.tipo-toggle__option--active]="form.controls.tipo.value === 'empregador'"
-              >
-                <input type="radio" formControlName="tipo" value="empregador" />
-                Empresa
-              </label>
-            </div>
+            <p-selectbutton
+              [options]="tipoOptions"
+              optionLabel="label"
+              optionValue="value"
+              [allowEmpty]="false"
+              [fluid]="true"
+              formControlName="tipo"
+            />
           </div>
 
           <div class="field">
             <label class="field__label" for="username">Usuário</label>
             <input
+              pInputText
               id="username"
               type="text"
-              class="field__input"
-              [class.field__input--invalid]="form.controls.username.invalid && form.controls.username.touched"
+              [fluid]="true"
+              [invalid]="form.controls.username.invalid && form.controls.username.touched"
               formControlName="username"
               autocomplete="username"
             />
@@ -58,11 +51,12 @@
 
           <div class="field">
             <label class="field__label" for="password">Senha</label>
-            <input
-              id="password"
-              type="password"
-              class="field__input"
-              [class.field__input--invalid]="form.controls.password.invalid && form.controls.password.touched"
+            <p-password
+              inputId="password"
+              [feedback]="false"
+              [toggleMask]="true"
+              [fluid]="true"
+              [invalid]="form.controls.password.invalid && form.controls.password.touched"
               formControlName="password"
               autocomplete="new-password"
             />
@@ -75,12 +69,11 @@
             <div class="field">
               <label class="field__label" for="nome_empresa">Nome da empresa</label>
               <input
+                pInputText
                 id="nome_empresa"
                 type="text"
-                class="field__input"
-                [class.field__input--invalid]="
-                  form.controls.nome_empresa.invalid && form.controls.nome_empresa.touched
-                "
+                [fluid]="true"
+                [invalid]="form.controls.nome_empresa.invalid && form.controls.nome_empresa.touched"
                 formControlName="nome_empresa"
               />
               @if (form.controls.nome_empresa.invalid && form.controls.nome_empresa.touched) {
@@ -89,7 +82,7 @@
             </div>
           }
 
-          <app-button type="submit" variant="primary" [loading]="loading">Criar conta</app-button>
+          <p-button type="submit" label="Criar conta" [loading]="loading" [fluid]="true" />
         </form>
 
         <a routerLink="/login" class="cadastro__back-link">Já tenho uma conta</a>

@@ -1,10 +1,13 @@
 import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
+import { DataView } from 'primeng/dataview';
+import { Tag } from 'primeng/tag';
+import { Message } from 'primeng/message';
 import { VagaService } from '../services/vaga.service';
 import { Vaga } from '../models/vaga.model';
 
 @Component({
     selector: 'app-vagas-list',
-    imports: [],
+    imports: [DataView, Tag, Message],
     templateUrl: './vagas-list.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './vagas-list.component.css'

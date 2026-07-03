@@ -2,13 +2,16 @@ import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Button } from 'primeng/button';
+import { InputText } from 'primeng/inputtext';
+import { Password } from 'primeng/password';
+import { Message } from 'primeng/message';
 import { AuthService } from '../../../core/services/auth.service';
 import { LogoComponent } from '../../../shared/ui/logo/logo.component';
-import { ButtonComponent } from '../../../shared/ui/button/button.component';
 
 @Component({
     selector: 'app-login',
-    imports: [ReactiveFormsModule, RouterLink, LogoComponent, ButtonComponent],
+    imports: [ReactiveFormsModule, RouterLink, LogoComponent, Button, InputText, Password, Message],
     templateUrl: './login.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './login.component.css'

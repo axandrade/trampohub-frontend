@@ -70,44 +70,12 @@
   gap: var(--space-3);
 }
 
-.layout__avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background-color: var(--color-navy-700);
-  color: var(--color-white);
-  font-size: 0.8125rem;
-  font-weight: 600;
-}
-
 .layout__username {
   padding-right: var(--space-3);
   border-right: 1px solid var(--color-gray-200);
   font-size: 0.9375rem;
   font-weight: 600;
   color: var(--color-gray-900);
-}
-
-.layout__logout {
-  padding: var(--space-2) var(--space-4);
-  border: 1px solid var(--color-gray-300);
-  border-radius: var(--radius-sm);
-  background-color: transparent;
-  color: var(--color-navy-700);
-  font-family: inherit;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.15s ease, border-color 0.15s ease;
-}
-
-.layout__logout:hover {
-  background-color: var(--color-navy-100);
-  border-color: var(--color-navy-500);
 }
 
 .layout__content {

@@ -11,11 +11,11 @@
   <div class="layout__main">
     <header class="layout__topbar">
       <div class="layout__user">
-        <span class="layout__avatar">{{ initials }}</span>
+        <p-avatar [label]="initials" shape="circle" />
         @if (username) {
           <span class="layout__username">{{ username }}</span>
         }
-        <button type="button" class="layout__logout" (click)="logout()">Sair</button>
+        <p-button label="Sair" icon="pi pi-sign-out" [text]="true" (onClick)="logout()" />
       </div>
     </header>
 

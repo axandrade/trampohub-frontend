@@ -1,11 +1,13 @@
 import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Avatar } from 'primeng/avatar';
+import { Button } from 'primeng/button';
 import { AuthService } from '../../core/services/auth.service';
 import { LogoComponent } from '../../shared/ui/logo/logo.component';
 
 @Component({
     selector: 'app-main-layout',
-    imports: [RouterLink, RouterLinkActive, RouterOutlet, LogoComponent],
+    imports: [RouterLink, RouterLinkActive, RouterOutlet, LogoComponent, Avatar, Button],
     templateUrl: './main-layout.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './main-layout.component.css'

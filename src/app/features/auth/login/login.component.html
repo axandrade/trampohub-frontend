@@ -12,16 +12,17 @@
 
       <form class="login__form" [formGroup]="form" (ngSubmit)="submit()">
         @if (errorMessage) {
-          <div class="alert alert--danger" role="alert">{{ errorMessage }}</div>
+          <p-message severity="error" styleClass="w-full">{{ errorMessage }}</p-message>
         }
 
         <div class="field">
           <label class="field__label" for="username">Usuário</label>
           <input
+            pInputText
             id="username"
             type="text"
-            class="field__input"
-            [class.field__input--invalid]="form.controls.username.invalid && form.controls.username.touched"
+            [fluid]="true"
+            [invalid]="form.controls.username.invalid && form.controls.username.touched"
             formControlName="username"
             autocomplete="username"
           />
@@ -32,11 +33,12 @@
 
         <div class="field">
           <label class="field__label" for="password">Senha</label>
-          <input
-            id="password"
-            type="password"
-            class="field__input"
-            [class.field__input--invalid]="form.controls.password.invalid && form.controls.password.touched"
+          <p-password
+            inputId="password"
+            [feedback]="false"
+            [toggleMask]="true"
+            [fluid]="true"
+            [invalid]="form.controls.password.invalid && form.controls.password.touched"
             formControlName="password"
             autocomplete="current-password"
           />
@@ -45,8 +47,8 @@
           }
         </div>
 
-        <app-button type="submit" variant="primary" [loading]="loading">Entrar</app-button>
-        <app-button type="button" variant="secondary" routerLink="/cadastro">Cadastre-se</app-button>
+        <p-button type="submit" label="Entrar" [loading]="loading" [fluid]="true" />
+        <p-button type="button" label="Cadastre-se" [outlined]="true" [fluid]="true" routerLink="/cadastro" />
       </form>
     </div>
   </section>

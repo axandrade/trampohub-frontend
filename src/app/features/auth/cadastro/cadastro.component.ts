@@ -2,13 +2,17 @@ import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Button } from 'primeng/button';
+import { InputText } from 'primeng/inputtext';
+import { Password } from 'primeng/password';
+import { Message } from 'primeng/message';
+import { SelectButton } from 'primeng/selectbutton';
 import { AuthService } from '../../../core/services/auth.service';
 import { LogoComponent } from '../../../shared/ui/logo/logo.component';
-import { ButtonComponent } from '../../../shared/ui/button/button.component';
 
 @Component({
     selector: 'app-cadastro',
-    imports: [ReactiveFormsModule, RouterLink, LogoComponent, ButtonComponent],
+    imports: [ReactiveFormsModule, RouterLink, LogoComponent, Button, InputText, Password, Message, SelectButton],
     templateUrl: './cadastro.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './cadastro.component.css'
@@ -16,6 +20,11 @@ import { ButtonComponent } from '../../../shared/ui/button/button.component';
 export class CadastroComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
+
+  readonly tipoOptions = [
+    { label: 'Candidato', value: 'candidato' as const },
+    { label: 'Empresa', value: 'empregador' as const },
+  ];
 
   loading = false;
   success = false;
