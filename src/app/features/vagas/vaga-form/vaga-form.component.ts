@@ -1,4 +1,4 @@
-import { Component, inject, output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, OnInit, inject, output, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ButtonDirective } from 'primeng/button';
@@ -17,13 +17,19 @@ import { Vaga } from '../models/vaga.model';
     changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './vaga-form.component.css'
 })
-export class VagaFormComponent {
+export class VagaFormComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly vagaService = inject(VagaService);
 
+  @Input() vaga: Vaga | null = null;
+
   readonly saved = output<Vaga>();
   readonly cancelled = output<void>();
+
+  get isEdicao(): boolean {
+    return !!this.vaga;
+  }
 
   readonly tipoContratoOptions = [
     { label: 'CLT', value: 'CLT' },
@@ -51,6 +57,19 @@ export class VagaFormComponent {
     modalidade: [''],
   });
 
+  ngOnInit(): void {
+    if (this.vaga) {
+      this.form.patchValue({
+        titulo: this.vaga.titulo,
+        descricao: this.vaga.descricao,
+        localizacao: this.vaga.localizacao ?? '',
+        salario: this.vaga.salario ?? '',
+        tipo_contrato: this.vaga.tipo_contrato ?? '',
+        modalidade: this.vaga.modalidade ?? '',
+      });
+    }
+  }
+
   submit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -63,26 +82,28 @@ export class VagaFormComponent {
     const { titulo, descricao, empresa, localizacao, salario, tipo_contrato, modalidade } =
       this.form.getRawValue();
 
-    this.vagaService
-      .create({
-        titulo,
-        descricao,
-        empresa,
-        localizacao: localizacao || undefined,
-        salario: salario || undefined,
-        tipo_contrato: tipo_contrato || undefined,
-        modalidade: modalidade || undefined,
-      })
-      .subscribe({
-        next: (vaga) => {
-          this.loading = false;
-          this.saved.emit(vaga);
-        },
-        error: (error: HttpErrorResponse) => {
-          this.loading = false;
-          this.errorMessage = this.extractErrorMessage(error);
-        },
-      });
+    const payload = {
+      titulo,
+      descricao,
+      empresa,
+      localizacao: localizacao || undefined,
+      salario: salario || undefined,
+      tipo_contrato: tipo_contrato || undefined,
+      modalidade: modalidade || undefined,
+    };
+
+    const request$ = this.vaga ? this.vagaService.update(this.vaga.id, payload) : this.vagaService.create(payload);
+
+    request$.subscribe({
+      next: (vaga) => {
+        this.loading = false;
+        this.saved.emit(vaga);
+      },
+      error: (error: HttpErrorResponse) => {
+        this.loading = false;
+        this.errorMessage = this.extractErrorMessage(error);
+      },
+    });
   }
 
   cancel(): void {

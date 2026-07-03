@@ -24,6 +24,7 @@ export class VagasListComponent implements OnInit {
   loading = true;
   errorMessage: string | null = null;
   showForm = false;
+  editingVaga: Vaga | null = null;
 
   get isEmpresa(): boolean {
     return this.authService.isEmpresa();
@@ -42,8 +43,22 @@ export class VagasListComponent implements OnInit {
     });
   }
 
+  openNewVagaForm(): void {
+    this.editingVaga = null;
+    this.showForm = true;
+  }
+
+  openEditVagaForm(vaga: Vaga): void {
+    this.editingVaga = vaga;
+    this.showForm = true;
+  }
+
   onVagaSaved(vaga: Vaga): void {
-    this.vagas = [vaga, ...this.vagas];
+    if (this.editingVaga) {
+      this.vagas = this.vagas.map((v) => (v.id === vaga.id ? vaga : v));
+    } else {
+      this.vagas = [vaga, ...this.vagas];
+    }
     this.showForm = false;
   }
 }

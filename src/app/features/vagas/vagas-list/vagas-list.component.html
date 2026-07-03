@@ -2,7 +2,7 @@
   <div class="vagas__header">
     <h1 class="vagas__title">Vagas disponíveis</h1>
     @if (isEmpresa) {
-      <button pButton type="button" (click)="showForm = true">
+      <button pButton type="button" (click)="openNewVagaForm()">
         <i class="pi pi-plus"></i>
         Nova vaga
       </button>
@@ -19,7 +19,20 @@
             <li class="vaga-card">
               <div class="vaga-card__header">
                 <h2 class="vaga-card__titulo">{{ vaga.titulo }}</h2>
-                <span class="vaga-card__empresa">{{ vaga.empresa }}</span>
+                <div class="vaga-card__header-meta">
+                  @if (isEmpresa) {
+                    <button
+                      pButton
+                      type="button"
+                      size="small"
+                      [text]="true"
+                      (click)="openEditVagaForm(vaga)"
+                    >
+                      <i class="pi pi-pencil"></i>
+                      Editar
+                    </button>
+                  }
+                </div>
               </div>
               <p class="vaga-card__descricao">{{ vaga.descricao }}</p>
               <div class="vaga-card__meta">
@@ -47,14 +60,14 @@
   }
 
   <p-dialog
-    header="Cadastrar vaga"
+    [header]="editingVaga ? 'Editar vaga' : 'Cadastrar vaga'"
     [(visible)]="showForm"
     [modal]="true"
     [dismissableMask]="true"
     [style]="{ width: '640px' }"
   >
     @if (showForm) {
-      <app-vaga-form (saved)="onVagaSaved($event)" (cancelled)="showForm = false" />
+      <app-vaga-form [vaga]="editingVaga" (saved)="onVagaSaved($event)" (cancelled)="showForm = false" />
     }
   </p-dialog>
 </div>

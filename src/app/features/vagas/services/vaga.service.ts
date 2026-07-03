@@ -17,4 +17,8 @@ export class VagaService {
   create(payload: NovaVagaPayload): Observable<Vaga> {
     return this.http.post<Vaga>(`${environment.apiUrl}/vagas/`, payload);
   }
+
+  update(id: string, payload: NovaVagaPayload): Observable<Vaga> {
+    return this.http.patch<Vaga>(`${environment.apiUrl}/vagas/${id}/`, payload);
+  }
 }
