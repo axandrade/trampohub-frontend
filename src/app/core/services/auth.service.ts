@@ -24,6 +24,9 @@ export interface LoginResponse {
 export interface PerfilResponse {
   tipo: TipoUsuario;
   nome_empresa?: string;
+  foto?: string | null;
+  username: string;
+  email?: string;
 }
 
 export interface CadastroPayload {
@@ -37,6 +40,15 @@ export interface CadastroPayload {
 
 export interface CadastroResponse {
   detail: string;
+}
+
+export interface EditarPerfilPayload {
+  username?: string;
+  email?: string;
+  nome_empresa?: string;
+  foto?: File | null;
+  senha_atual?: string;
+  nova_senha?: string;
 }
 
 @Injectable({
@@ -56,14 +68,46 @@ export class AuthService {
       }),
       switchMap((response) =>
         this.http.get<PerfilResponse>(`${environment.apiUrl}/perfil/me/`).pipe(
-          tap((perfil) => {
-            this.setTipo(perfil.tipo);
-            this.setNomeEmpresa(perfil.nome_empresa ?? null);
-          }),
+          tap((perfil) => this.applyPerfilToCache(perfil)),
           map(() => response),
         ),
       ),
     );
+  }
+
+  getPerfil(): Observable<PerfilResponse> {
+    return this.http.get<PerfilResponse>(`${environment.apiUrl}/perfil/me/`);
+  }
+
+  updatePerfil(payload: EditarPerfilPayload): Observable<PerfilResponse> {
+    const formData = new FormData();
+    if (payload.username) {
+      formData.append('username', payload.username);
+    }
+    if (payload.email !== undefined) {
+      formData.append('email', payload.email);
+    }
+    if (payload.nome_empresa !== undefined) {
+      formData.append('nome_empresa', payload.nome_empresa);
+    }
+    if (payload.foto) {
+      formData.append('foto', payload.foto);
+    }
+    if (payload.senha_atual) {
+      formData.append('senha_atual', payload.senha_atual);
+    }
+    if (payload.nova_senha) {
+      formData.append('nova_senha', payload.nova_senha);
+    }
+    return this.http.patch<PerfilResponse>(`${environment.apiUrl}/perfil/me/`, formData).pipe(
+      tap((perfil) => this.applyPerfilToCache(perfil)),
+    );
+  }
+
+  private applyPerfilToCache(perfil: PerfilResponse): void {
+    this.setTipo(perfil.tipo);
+    this.setNomeEmpresa(perfil.nome_empresa ?? null);
+    this.setUsername(perfil.username);
   }
 
   register(payload: CadastroPayload): Observable<CadastroResponse> {

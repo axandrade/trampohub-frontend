@@ -25,6 +25,11 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/vagas/vagas-list/vagas-list.component').then((m) => m.VagasListComponent),
       },
+      {
+        path: 'perfil/editar',
+        loadComponent: () =>
+          import('./features/perfil/perfil-editar/perfil-editar.component').then((m) => m.PerfilEditarComponent),
+      },
     ],
   },
   { path: '**', redirectTo: 'login' },

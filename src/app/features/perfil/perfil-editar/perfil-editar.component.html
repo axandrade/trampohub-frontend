@@ -1,0 +1,208 @@
+<div class="perfil-editar">
+  <h1 class="perfil-editar__title">Editar perfil</h1>
+  <p class="perfil-editar__subtitle">Atualize suas informações de conta.</p>
+
+  @if (loadingPerfil) {
+    <p class="perfil-editar__status">Carregando...</p>
+  } @else {
+    <form class="perfil-editar__form" [formGroup]="form" (ngSubmit)="submit()">
+      @if (errorMessage) {
+        <p-message severity="error" styleClass="w-full">{{ errorMessage }}</p-message>
+      }
+      @if (success) {
+        <p-message severity="success" styleClass="w-full">Perfil atualizado com sucesso.</p-message>
+      }
+
+      <div class="field">
+        <label class="field__label" for="username">Usuário</label>
+        <input
+          pInputText
+          id="username"
+          type="text"
+          [fluid]="true"
+          [invalid]="form.controls.username.invalid && form.controls.username.touched"
+          formControlName="username"
+          autocomplete="username"
+        />
+        @if (form.controls.username.invalid && form.controls.username.touched) {
+          <span class="field__error">Informe um usuário.</span>
+        }
+      </div>
+
+      @if (isCandidato) {
+        <div class="field">
+          <label class="field__label" for="email">E-mail</label>
+          <input
+            pInputText
+            id="email"
+            type="email"
+            [fluid]="true"
+            [invalid]="form.controls.email.invalid && form.controls.email.touched"
+            formControlName="email"
+            autocomplete="email"
+          />
+          @if (form.controls.email.hasError('required') && form.controls.email.touched) {
+            <span class="field__error">Informe seu e-mail.</span>
+          } @else if (form.controls.email.hasError('email') && form.controls.email.touched) {
+            <span class="field__error">Informe um e-mail válido.</span>
+          }
+        </div>
+
+        <div class="field">
+          <span class="field__label">Foto de perfil</span>
+          <div class="foto-picker">
+            <div class="foto-picker__preview" [class.foto-picker__preview--empty]="!previewUrl">
+              @if (previewUrl) {
+                <img [src]="previewUrl" alt="Prévia da foto de perfil" class="foto-picker__preview-img" />
+              } @else {
+                <i class="pi pi-user foto-picker__preview-icon"></i>
+              }
+            </div>
+            <div class="foto-picker__actions">
+              <button pButton type="button" size="small" [outlined]="true" (click)="fotoInput.click()">
+                <i class="pi pi-camera"></i>
+                {{ previewUrl ? 'Trocar foto' : 'Escolher foto' }}
+              </button>
+            </div>
+            <input
+              #fotoInput
+              class="foto-picker__input"
+              type="file"
+              accept="image/*"
+              (change)="onFileSelected($event)"
+            />
+          </div>
+        </div>
+      }
+
+      @if (isEmpresa) {
+        <div class="field">
+          <label class="field__label" for="nome_empresa">Nome da empresa</label>
+          <input
+            pInputText
+            id="nome_empresa"
+            type="text"
+            [fluid]="true"
+            [invalid]="form.controls.nome_empresa.invalid && form.controls.nome_empresa.touched"
+            formControlName="nome_empresa"
+          />
+          @if (form.controls.nome_empresa.invalid && form.controls.nome_empresa.touched) {
+            <span class="field__error">Informe o nome da empresa.</span>
+          }
+        </div>
+      }
+
+      <div class="perfil-editar__section">
+        <span class="perfil-editar__section-title">Trocar senha</span>
+        <span class="perfil-editar__section-subtitle">Deixe em branco se não quiser alterar sua senha.</span>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="senha_atual">Senha atual</label>
+        <div class="password-field">
+          <input
+            pInputPassword
+            id="senha_atual"
+            [(mask)]="passwordMasked"
+            [fluid]="true"
+            [invalid]="form.hasError('senhaAtualObrigatoria') && form.controls.senha_atual.touched"
+            formControlName="senha_atual"
+            autocomplete="current-password"
+          />
+          <button
+            type="button"
+            class="password-field__toggle"
+            [attr.aria-label]="passwordMasked ? 'Mostrar senha' : 'Ocultar senha'"
+            (click)="passwordMasked = !passwordMasked"
+          >
+            <i class="pi" [class.pi-eye]="passwordMasked" [class.pi-eye-slash]="!passwordMasked"></i>
+          </button>
+        </div>
+        @if (form.hasError('senhaAtualObrigatoria') && form.controls.senha_atual.touched) {
+          <span class="field__error">Informe sua senha atual para trocar a senha.</span>
+        }
+      </div>
+
+      <div class="perfil-editar__row">
+        <div class="field">
+          <label class="field__label" for="nova_senha">Nova senha</label>
+          <div class="password-field">
+            <input
+              pInputPassword
+              id="nova_senha"
+              [(mask)]="novaSenhaMasked"
+              [fluid]="true"
+              [invalid]="form.controls.nova_senha.invalid && form.controls.nova_senha.touched"
+              formControlName="nova_senha"
+              autocomplete="new-password"
+            />
+            <button
+              type="button"
+              class="password-field__toggle"
+              [attr.aria-label]="novaSenhaMasked ? 'Mostrar senha' : 'Ocultar senha'"
+              (click)="novaSenhaMasked = !novaSenhaMasked"
+            >
+              <i class="pi" [class.pi-eye]="novaSenhaMasked" [class.pi-eye-slash]="!novaSenhaMasked"></i>
+            </button>
+          </div>
+          @if (form.controls.nova_senha.invalid && form.controls.nova_senha.touched) {
+            <span class="field__error">A senha deve ter ao menos 6 caracteres.</span>
+          }
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="confirmar_nova_senha">Confirmar nova senha</label>
+          <input
+            pInputPassword
+            id="confirmar_nova_senha"
+            [fluid]="true"
+            [invalid]="form.hasError('senhasDiferentes') && form.controls.confirmar_nova_senha.touched"
+            formControlName="confirmar_nova_senha"
+            autocomplete="new-password"
+          />
+          @if (form.hasError('senhasDiferentes') && form.controls.confirmar_nova_senha.touched) {
+            <span class="field__error">As senhas não coincidem.</span>
+          }
+        </div>
+      </div>
+
+      <div class="perfil-editar__actions">
+        <button pButton type="button" [outlined]="true" [disabled]="loading" (click)="cancelar()">Cancelar</button>
+        <button pButton type="submit" [disabled]="loading">
+          @if (loading) {
+            <i class="pi pi-spinner pi-spin"></i>
+          }
+          Salvar alterações
+        </button>
+      </div>
+    </form>
+  }
+
+  @if (cropperImageChangedEvent) {
+    <div class="cropper-overlay">
+      <div class="cropper-overlay__panel">
+        <h2 class="cropper-overlay__title">Ajustar foto</h2>
+        <p class="cropper-overlay__subtitle">Arraste para reposicionar e use o zoom para ajustar o enquadramento.</p>
+
+        <image-cropper
+          class="cropper-overlay__cropper"
+          [imageChangedEvent]="cropperImageChangedEvent"
+          [maintainAspectRatio]="true"
+          [aspectRatio]="1"
+          [roundCropper]="true"
+          format="png"
+          output="blob"
+          [resizeToWidth]="480"
+          [resizeToHeight]="480"
+          (imageCropped)="onImageCropped($event)"
+          (loadImageFailed)="onLoadImageFailed()"
+        ></image-cropper>
+
+        <div class="cropper-overlay__actions">
+          <button pButton type="button" [outlined]="true" (click)="cancelCrop()">Cancelar</button>
+          <button pButton type="button" (click)="confirmCrop()">Usar esta foto</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

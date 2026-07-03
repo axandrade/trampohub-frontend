@@ -10,16 +10,14 @@
 
   <div class="layout__main">
     <header class="layout__topbar">
-      <div class="layout__user">
-        <p-avatar [label]="initials" shape="circle" />
+      <button type="button" class="layout__user" (click)="userMenu.toggle($event)">
+        <p-avatar [label]="initials" shape="circle" class="layout__avatar" />
         @if (username) {
           <span class="layout__username">{{ username }}</span>
         }
-        <button pButton type="button" [text]="true" (click)="logout()">
-          <i class="pi pi-sign-out"></i>
-          Sair
-        </button>
-      </div>
+        <i class="pi pi-chevron-down layout__user-chevron"></i>
+      </button>
+      <p-menu #userMenu [model]="userMenuItems" [popup]="true" />
     </header>
 
     <main class="layout__content">
