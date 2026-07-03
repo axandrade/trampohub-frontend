@@ -33,22 +33,37 @@
 
         <div class="field">
           <label class="field__label" for="password">Senha</label>
-          <p-password
-            inputId="password"
-            [feedback]="false"
-            [toggleMask]="true"
-            [fluid]="true"
-            [invalid]="form.controls.password.invalid && form.controls.password.touched"
-            formControlName="password"
-            autocomplete="current-password"
-          />
+          <div class="password-field">
+            <input
+              pInputPassword
+              id="password"
+              [(mask)]="passwordMasked"
+              [fluid]="true"
+              [invalid]="form.controls.password.invalid && form.controls.password.touched"
+              formControlName="password"
+              autocomplete="current-password"
+            />
+            <button
+              type="button"
+              class="password-field__toggle"
+              [attr.aria-label]="passwordMasked ? 'Mostrar senha' : 'Ocultar senha'"
+              (click)="passwordMasked = !passwordMasked"
+            >
+              <i class="pi" [class.pi-eye]="passwordMasked" [class.pi-eye-slash]="!passwordMasked"></i>
+            </button>
+          </div>
           @if (form.controls.password.invalid && form.controls.password.touched) {
             <span class="field__error">Informe a senha.</span>
           }
         </div>
 
-        <p-button type="submit" label="Entrar" [loading]="loading" [fluid]="true" />
-        <p-button type="button" label="Cadastre-se" [outlined]="true" [fluid]="true" routerLink="/cadastro" />
+        <button pButton type="submit" [fluid]="true" [disabled]="loading">
+          @if (loading) {
+            <i class="pi pi-spinner pi-spin"></i>
+          }
+          Entrar
+        </button>
+        <button pButton type="button" [outlined]="true" [fluid]="true" routerLink="/cadastro">Cadastre-se</button>
       </form>
     </div>
   </section>

@@ -5,6 +5,9 @@
     <nav class="layout__nav">
       <a class="layout__nav-link" routerLink="/home" routerLinkActive="layout__nav-link--active">Início</a>
       <a class="layout__nav-link" routerLink="/vagas" routerLinkActive="layout__nav-link--active">Vagas</a>
+      @if (isEmpresa) {
+        <a class="layout__nav-link" routerLink="/vagas/nova" routerLinkActive="layout__nav-link--active">Cadastrar vaga</a>
+      }
     </nav>
   </aside>
 
@@ -15,7 +18,10 @@
         @if (username) {
           <span class="layout__username">{{ username }}</span>
         }
-        <p-button label="Sair" icon="pi pi-sign-out" [text]="true" (onClick)="logout()" />
+        <button pButton type="button" [text]="true" (click)="logout()">
+          <i class="pi pi-sign-out"></i>
+          Sair
+        </button>
       </div>
     </header>
 

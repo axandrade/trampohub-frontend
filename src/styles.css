@@ -87,3 +87,21 @@ p {
   font-size: 0.8125rem;
   color: var(--color-danger);
 }
+
+.password-field {
+  position: relative;
+  display: flex;
+}
+
+.password-field__toggle {
+  position: absolute;
+  top: 50%;
+  right: var(--space-3);
+  transform: translateY(-50%);
+  display: inline-flex;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-gray-500);
+  cursor: pointer;
+}

@@ -11,7 +11,7 @@
       @if (success) {
         <h1 class="cadastro__title">Cadastro concluído!</h1>
         <p class="cadastro__subtitle">Sua conta foi criada com sucesso. Agora é só entrar.</p>
-        <p-button label="Ir para o login" styleClass="cadastro__submit" [fluid]="true" routerLink="/login" />
+        <button pButton class="cadastro__submit" [fluid]="true" routerLink="/login">Ir para o login</button>
       } @else {
         <h1 class="cadastro__title">Criar conta</h1>
         <p class="cadastro__subtitle">Escolha o tipo de conta e preencha seus dados.</p>
@@ -51,15 +51,25 @@
 
           <div class="field">
             <label class="field__label" for="password">Senha</label>
-            <p-password
-              inputId="password"
-              [feedback]="false"
-              [toggleMask]="true"
-              [fluid]="true"
-              [invalid]="form.controls.password.invalid && form.controls.password.touched"
-              formControlName="password"
-              autocomplete="new-password"
-            />
+            <div class="password-field">
+              <input
+                pInputPassword
+                id="password"
+                [(mask)]="passwordMasked"
+                [fluid]="true"
+                [invalid]="form.controls.password.invalid && form.controls.password.touched"
+                formControlName="password"
+                autocomplete="new-password"
+              />
+              <button
+                type="button"
+                class="password-field__toggle"
+                [attr.aria-label]="passwordMasked ? 'Mostrar senha' : 'Ocultar senha'"
+                (click)="passwordMasked = !passwordMasked"
+              >
+                <i class="pi" [class.pi-eye]="passwordMasked" [class.pi-eye-slash]="!passwordMasked"></i>
+              </button>
+            </div>
             @if (form.controls.password.invalid && form.controls.password.touched) {
               <span class="field__error">A senha deve ter ao menos 6 caracteres.</span>
             }
@@ -82,7 +92,12 @@
             </div>
           }
 
-          <p-button type="submit" label="Criar conta" [loading]="loading" [fluid]="true" />
+          <button pButton type="submit" [fluid]="true" [disabled]="loading">
+            @if (loading) {
+              <i class="pi pi-spinner pi-spin"></i>
+            }
+            Criar conta
+          </button>
         </form>
 
         <a routerLink="/login" class="cadastro__back-link">Já tenho uma conta</a>

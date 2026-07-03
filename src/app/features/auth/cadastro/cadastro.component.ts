@@ -2,9 +2,9 @@ import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Button } from 'primeng/button';
+import { ButtonDirective } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
-import { Password } from 'primeng/password';
+import { InputPassword } from 'primeng/inputpassword';
 import { Message } from 'primeng/message';
 import { SelectButton } from 'primeng/selectbutton';
 import { AuthService } from '../../../core/services/auth.service';
@@ -12,7 +12,7 @@ import { LogoComponent } from '../../../shared/ui/logo/logo.component';
 
 @Component({
     selector: 'app-cadastro',
-    imports: [ReactiveFormsModule, RouterLink, LogoComponent, Button, InputText, Password, Message, SelectButton],
+    imports: [ReactiveFormsModule, RouterLink, LogoComponent, ButtonDirective, InputText, InputPassword, Message, SelectButton],
     templateUrl: './cadastro.component.html',
     changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './cadastro.component.css'
@@ -29,6 +29,7 @@ export class CadastroComponent {
   loading = false;
   success = false;
   errorMessage: string | null = null;
+  passwordMasked = true;
 
   form = this.fb.nonNullable.group({
     tipo: ['candidato' as 'candidato' | 'empregador', Validators.required],

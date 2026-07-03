@@ -1,0 +1,100 @@
+<div class="vaga-form">
+  <h1 class="vaga-form__title">Cadastrar vaga</h1>
+  <p class="vaga-form__subtitle">Preencha os dados da vaga que sua empresa deseja anunciar.</p>
+
+  <form class="vaga-form__form" [formGroup]="form" (ngSubmit)="submit()">
+    @if (errorMessage) {
+      <p-message severity="error" styleClass="w-full">{{ errorMessage }}</p-message>
+    }
+
+    <div class="field">
+      <label class="field__label" for="titulo">Título</label>
+      <input
+        pInputText
+        id="titulo"
+        type="text"
+        [fluid]="true"
+        [invalid]="form.controls.titulo.invalid && form.controls.titulo.touched"
+        formControlName="titulo"
+      />
+      @if (form.controls.titulo.invalid && form.controls.titulo.touched) {
+        <span class="field__error">Informe o título da vaga.</span>
+      }
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="descricao">Descrição</label>
+      <textarea
+        pTextarea
+        id="descricao"
+        rows="5"
+        [fluid]="true"
+        [invalid]="form.controls.descricao.invalid && form.controls.descricao.touched"
+        formControlName="descricao"
+      ></textarea>
+      @if (form.controls.descricao.invalid && form.controls.descricao.touched) {
+        <span class="field__error">Informe a descrição da vaga.</span>
+      }
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="empresa">Empresa</label>
+      <input
+        pInputText
+        id="empresa"
+        type="text"
+        [fluid]="true"
+        [invalid]="form.controls.empresa.invalid && form.controls.empresa.touched"
+        formControlName="empresa"
+      />
+      @if (form.controls.empresa.invalid && form.controls.empresa.touched) {
+        <span class="field__error">Informe o nome da empresa.</span>
+      }
+    </div>
+
+    <div class="vaga-form__row">
+      <div class="field">
+        <label class="field__label" for="localizacao">Localização</label>
+        <input pInputText id="localizacao" type="text" [fluid]="true" formControlName="localizacao" />
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="salario">Salário</label>
+        <input pInputText id="salario" type="text" [fluid]="true" formControlName="salario" placeholder="Ex: 3500.00" />
+      </div>
+    </div>
+
+    <div class="vaga-form__row">
+      <div class="field">
+        <span class="field__label">Tipo de contrato</span>
+        <p-select
+          [options]="tipoContratoOptions"
+          optionLabel="label"
+          optionValue="value"
+          [fluid]="true"
+          placeholder="Selecione"
+          formControlName="tipo_contrato"
+        />
+      </div>
+
+      <div class="field">
+        <span class="field__label">Modalidade</span>
+        <p-select
+          [options]="modalidadeOptions"
+          optionLabel="label"
+          optionValue="value"
+          [fluid]="true"
+          placeholder="Selecione"
+          formControlName="modalidade"
+        />
+      </div>
+    </div>
+
+    <button pButton type="submit" [fluid]="true" [disabled]="loading">
+      @if (loading) {
+        <i class="pi pi-spinner pi-spin"></i>
+      }
+      Cadastrar vaga
+    </button>
+  </form>
+</div>

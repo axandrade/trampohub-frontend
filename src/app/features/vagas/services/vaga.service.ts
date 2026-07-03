@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { Vaga } from '../models/vaga.model';
+import { NovaVagaPayload, Vaga } from '../models/vaga.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,5 +12,9 @@ export class VagaService {
 
   list(): Observable<Vaga[]> {
     return this.http.get<Vaga[]>(`${environment.apiUrl}/vagas/`);
+  }
+
+  create(payload: NovaVagaPayload): Observable<Vaga> {
+    return this.http.post<Vaga>(`${environment.apiUrl}/vagas/`, payload);
   }
 }
