@@ -14,25 +14,28 @@
   } @else {
     <p-dataview [value]="vagas" [loading]="loading">
       <ng-template #list let-items>
+        @if (isEmpresa && items.length) {
+          <div class="vagas__list-header">
+            <span>Vaga</span>
+            <span>Editar</span>
+          </div>
+        }
         <ul class="vagas__list">
           @for (vaga of items; track vaga.id) {
             <li class="vaga-card">
               <div class="vaga-card__header">
                 <h2 class="vaga-card__titulo">{{ vaga.titulo }}</h2>
-                <div class="vaga-card__header-meta">
-                  @if (isEmpresa) {
-                    <button
-                      pButton
-                      type="button"
-                      size="small"
-                      [text]="true"
-                      (click)="openEditVagaForm(vaga)"
-                    >
-                      <i class="pi pi-pencil"></i>
-                      Editar
-                    </button>
-                  }
-                </div>
+                @if (isEmpresa) {
+                  <button
+                    type="button"
+                    class="vaga-card__edit-btn"
+                    aria-label="Editar vaga"
+                    title="Editar vaga"
+                    (click)="openEditVagaForm(vaga)"
+                  >
+                    <i class="pi pi-pencil"></i>
+                  </button>
+                }
               </div>
               <p class="vaga-card__descricao">{{ vaga.descricao }}</p>
               <div class="vaga-card__meta">

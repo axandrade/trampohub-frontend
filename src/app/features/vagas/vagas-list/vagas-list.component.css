@@ -26,6 +26,20 @@
   color: var(--color-gray-500);
 }
 
+.vagas__list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: 0 var(--space-5);
+  margin-bottom: var(--space-3);
+  color: var(--color-gray-500);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
 .vagas__list {
   display: flex;
   flex-direction: column;
@@ -48,7 +62,7 @@
 
 .vaga-card__header {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
   flex-wrap: wrap;
@@ -59,10 +73,38 @@
   color: var(--color-gray-900);
 }
 
-.vaga-card__header-meta {
-  display: flex;
+.vaga-card__edit-btn {
+  display: inline-flex;
+  flex-shrink: 0;
   align-items: center;
-  gap: var(--space-2);
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid var(--color-gray-200);
+  border-radius: 50%;
+  background-color: var(--color-white);
+  color: var(--color-gray-500);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.1s ease;
+}
+
+.vaga-card__edit-btn:hover {
+  background-color: var(--color-navy-100);
+  border-color: var(--color-navy-400);
+  color: var(--color-navy-600);
+}
+
+.vaga-card__edit-btn:active {
+  transform: scale(0.92);
+}
+
+.vaga-card__edit-btn .pi {
+  font-size: 0.9rem;
 }
 
 .vaga-card__descricao {
