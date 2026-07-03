@@ -19,6 +19,44 @@
   gap: var(--space-3);
 }
 
+.publicas__user {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3) var(--space-1) var(--space-1);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.publicas__user:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.publicas__user:active {
+  background-color: rgba(255, 255, 255, 0.16);
+}
+
+.publicas__avatar {
+  background-color: var(--color-navy-400) !important;
+  color: var(--color-white) !important;
+  font-weight: 700;
+}
+
+.publicas__username {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-white);
+}
+
+.publicas__user-chevron {
+  font-size: 0.75rem;
+  color: var(--color-navy-100);
+}
+
 .publicas__content {
   display: flex;
   flex-direction: column;
@@ -90,6 +128,24 @@
   gap: var(--space-2);
 }
 
+.vaga-card__footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--space-2);
+}
+
+.candidatura__vaga {
+  margin: 0 0 var(--space-4);
+  color: var(--color-gray-700);
+}
+
+.candidatura__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
 @media (max-width: 560px) {
   .publicas__topbar {
     justify-content: center;
@@ -101,5 +157,17 @@
 
   .publicas__actions button {
     flex: 1;
+  }
+
+  .vaga-card__footer button {
+    width: 100%;
+  }
+
+  .candidatura__actions {
+    flex-direction: column-reverse;
+  }
+
+  .candidatura__actions button {
+    width: 100%;
   }
 }

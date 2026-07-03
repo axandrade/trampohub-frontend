@@ -63,7 +63,16 @@
           }
           Entrar
         </button>
-        <button pButton type="button" [outlined]="true" [fluid]="true" routerLink="/cadastro">Cadastre-se</button>
+        <button
+          pButton
+          type="button"
+          [outlined]="true"
+          [fluid]="true"
+          routerLink="/cadastro"
+          [queryParams]="returnUrl ? { returnUrl } : {}"
+        >
+          Cadastre-se
+        </button>
       </form>
 
       <a routerLink="/vagas-publicas" class="login__back-link">Ver vagas sem fazer login</a>

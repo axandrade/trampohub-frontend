@@ -11,7 +11,15 @@
       @if (success) {
         <h1 class="cadastro__title">Cadastro concluído!</h1>
         <p class="cadastro__subtitle">Sua conta foi criada com sucesso. Agora é só entrar.</p>
-        <button pButton class="cadastro__submit" [fluid]="true" routerLink="/login">Ir para o login</button>
+        <button
+          pButton
+          class="cadastro__submit"
+          [fluid]="true"
+          routerLink="/login"
+          [queryParams]="returnUrl ? { returnUrl } : {}"
+        >
+          Ir para o login
+        </button>
       } @else {
         <h1 class="cadastro__title">Criar conta</h1>
         <p class="cadastro__subtitle">Escolha o tipo de conta e preencha seus dados.</p>
@@ -156,7 +164,7 @@
           </button>
         </form>
 
-        <a routerLink="/login" class="cadastro__back-link">Já tenho uma conta</a>
+        <a routerLink="/login" [queryParams]="returnUrl ? { returnUrl } : {}" class="cadastro__back-link">Já tenho uma conta</a>
       }
     </div>
   </section>

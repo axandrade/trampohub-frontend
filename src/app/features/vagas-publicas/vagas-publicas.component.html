@@ -1,10 +1,22 @@
 <div class="publicas">
   <header class="publicas__topbar">
     <app-logo variant="full" theme="light" class="publicas__logo" />
-    <div class="publicas__actions">
-      <button pButton type="button" [outlined]="true" routerLink="/login">Entrar</button>
-      <button pButton type="button" routerLink="/cadastro">Cadastre-se</button>
-    </div>
+
+    @if (isAuthenticated) {
+      <button type="button" class="publicas__user" (click)="userMenu.toggle($event)">
+        <p-avatar [label]="initials" shape="circle" class="publicas__avatar" />
+        @if (username) {
+          <span class="publicas__username">{{ username }}</span>
+        }
+        <i class="pi pi-chevron-down publicas__user-chevron"></i>
+      </button>
+      <p-menu #userMenu [model]="userMenuItems" [popup]="true" />
+    } @else {
+      <div class="publicas__actions">
+        <button pButton type="button" [outlined]="true" routerLink="/login">Entrar</button>
+        <button pButton type="button" routerLink="/cadastro">Cadastre-se</button>
+      </div>
+    }
   </header>
 
   <main class="publicas__content">
@@ -38,6 +50,19 @@
                     <p-tag value="R$ {{ vaga.salario }}" severity="info" />
                   }
                 </div>
+
+                @if (!isEmpresa) {
+                  <div class="vaga-card__footer">
+                    @if (candidaturasEnviadas.has(vaga.id)) {
+                      <button pButton type="button" [outlined]="true" [disabled]="true">
+                        <i class="pi pi-check"></i>
+                        Candidatura enviada
+                      </button>
+                    } @else {
+                      <button pButton type="button" (click)="candidatarVaga(vaga)">Candidatar-se</button>
+                    }
+                  </div>
+                }
               </li>
             }
           </ul>
@@ -48,4 +73,49 @@
       </p-dataview>
     }
   </main>
+
+  <p-dialog
+    header="Candidatar-se"
+    [visible]="!!candidaturaVaga"
+    (visibleChange)="!$event && fecharCandidatura()"
+    [modal]="true"
+    [dismissableMask]="true"
+    [style]="{ width: '480px' }"
+    [breakpoints]="{ '560px': '92vw' }"
+  >
+    @if (candidaturaVaga) {
+      <p class="candidatura__vaga">
+        Você está se candidatando para <strong>{{ candidaturaVaga.titulo }}</strong> em
+        <strong>{{ candidaturaVaga.empresa }}</strong>.
+      </p>
+
+      @if (candidaturaError) {
+        <p-message severity="error" styleClass="w-full">{{ candidaturaError }}</p-message>
+      }
+
+      <div class="field">
+        <label class="field__label" for="mensagem">Mensagem (opcional)</label>
+        <textarea
+          pTextarea
+          id="mensagem"
+          rows="4"
+          [fluid]="true"
+          [(ngModel)]="candidaturaMensagem"
+          placeholder="Conte rapidamente por que você é uma boa escolha para essa vaga."
+        ></textarea>
+      </div>
+
+      <div class="candidatura__actions">
+        <button pButton type="button" [outlined]="true" [disabled]="candidaturaLoading" (click)="fecharCandidatura()">
+          Cancelar
+        </button>
+        <button pButton type="button" [disabled]="candidaturaLoading" (click)="confirmarCandidatura()">
+          @if (candidaturaLoading) {
+            <i class="pi pi-spinner pi-spin"></i>
+          }
+          Enviar candidatura
+        </button>
+      </div>
+    }
+  </p-dialog>
 </div>

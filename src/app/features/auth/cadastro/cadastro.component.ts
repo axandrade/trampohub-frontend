@@ -1,6 +1,6 @@
 import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ButtonDirective } from 'primeng/button';
@@ -33,6 +33,9 @@ export class CadastroComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly sanitizer = inject(DomSanitizer);
+  private readonly route = inject(ActivatedRoute);
+
+  readonly returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
 
   readonly tipoOptions = [
     { label: 'Candidato', value: 'candidato' as const },
