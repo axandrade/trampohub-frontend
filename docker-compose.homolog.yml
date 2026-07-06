@@ -1,0 +1,6 @@
+services:
+  frontend:
+    image: trampohub-frontend:homolog
+    container_name: trampohub-frontend-homolog
+    ports:
+      - "4001:80"
