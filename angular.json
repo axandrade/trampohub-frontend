@@ -58,6 +58,15 @@
                   "with": "src/environments/environment.development.ts"
                 }
               ]
+            },
+            "homolog": {
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.homolog.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
